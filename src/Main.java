@@ -11,7 +11,7 @@ public class Main extends JPanel {
     public Main(int width, int height) {
         super();
 
-        player = new Sprite(Resources.player, new Point(400, 700));
+        player = new Sprite(Resources.playerFront, new Point(400, 700));
 
         started = false;
 
