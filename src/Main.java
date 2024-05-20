@@ -38,6 +38,15 @@ public class Main extends JPanel {
         if (keys[KeyEvent.VK_A]||keys[KeyEvent.VK_LEFT]){
             player.move(-2, 0);
         }
+        if (keys[KeyEvent.VK_S]||keys[KeyEvent.VK_DOWN]){
+            player.move(0, 2);
+        }
+        if (keys[KeyEvent.VK_D]||keys[KeyEvent.VK_RIGHT]){
+            player.move(2, 0);
+        }
+        if (keys[KeyEvent.VK_W]||keys[KeyEvent.VK_UP]){
+            player.move(0, -2);
+        }
 
         if(keys[KeyEvent.VK_SPACE]){  //jump?
 //            player.jump();
@@ -46,11 +55,11 @@ public class Main extends JPanel {
 
         repaint();  //update graphics
     }
-    @Override
     // All drawing originates from this method
-    public void paintComponent(Graphics2D g2) {
-        super.paintComponent(g2);
-        Graphics2D g = (Graphics2D) g2;
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
 
         player.draw(g2);
 
