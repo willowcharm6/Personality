@@ -10,7 +10,7 @@ public class Resources {
     //    ImageIO line.
 
 
-    public static BufferedImage player;
+    public static BufferedImage player, titleCard;
 
 
 
@@ -18,7 +18,7 @@ public class Resources {
     static{
         try{
             player = ImageIO.read(new File("./res/Player_sprite_front.png"));
-
+            titleCard = ImageIO.read(new File("./res/TitleCard.png"));
 
         }catch(Exception e){e.printStackTrace();}
     }

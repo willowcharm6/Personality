@@ -5,12 +5,15 @@ import java.awt.event.KeyEvent;
 
 public class Main extends JPanel {
     private boolean[] keys;
+    private boolean started;
     private Sprite player;
 
     public Main(int width, int height) {
         super();
 
         player = new Sprite(Resources.player, new Point(400, 700));
+
+        started = false;
 
 
         setSize(width, height);
@@ -35,6 +38,11 @@ public class Main extends JPanel {
 //        int dx = keys[KeyEvent.VK_A] ? -1 : 0;
 //        dx = keys[KeyEvent.VK_D] ? 1 : dx;
 
+        if (!started && keys[KeyEvent.VK_SPACE]) {
+            started = true;
+            System.out.println("hello");
+        }
+
         if (keys[KeyEvent.VK_A]||keys[KeyEvent.VK_LEFT]){
             player.move(-2, 0);
         }
@@ -55,13 +63,27 @@ public class Main extends JPanel {
 
         repaint();  //update graphics
     }
-    // All drawing originates from this method
     @Override
+    // All drawing originates from this method
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        //background
+        g2.setColor(new Color(0xbdd980));
+        g2.fillRect(0, 0, 800, 800);
+
         player.draw(g2);
+
+        if (!started) {
+            int stretchedWidth = 800;
+            int stretchedHeight = 800;
+            g2.drawImage(Resources.titleCard, 0, 0, stretchedWidth, stretchedHeight, null);
+
+            g2.setColor(new Color(0x3c7c54));
+            g2.setFont(new Font("impact", Font.PLAIN, 60));
+            g2.drawString("PRESS SPACE TO START", 130, 550);
+        }
 
     }
     public static void main(String[] args) {
