@@ -11,8 +11,7 @@ public class Main extends JPanel {
     public Main(int width, int height) {
         super();
 
-        player = new Sprite(Resources.playerFront, new Point(400, 700));
-
+        player = new Player(new Point(400, 700));
         started = false;
 
 
@@ -29,18 +28,10 @@ public class Main extends JPanel {
         });
         Timer timer = new Timer(1000/60, e -> update());
         timer.start();
-
-
     }
     public void update(){
-
-        // I left this here as a reminder how to handle the key input
-//        int dx = keys[KeyEvent.VK_A] ? -1 : 0;
-//        dx = keys[KeyEvent.VK_D] ? 1 : dx;
-
         if (!started && keys[KeyEvent.VK_SPACE]) {
             started = true;
-            System.out.println("hello");
         }
 
         if (keys[KeyEvent.VK_A]||keys[KeyEvent.VK_LEFT]){
