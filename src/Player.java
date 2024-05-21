@@ -9,7 +9,7 @@ public class Player extends Sprite {
     private boolean moving = false;
 
     public Player(Point location) {
-        super(Resources.playerFront, location);
+        super(location);
 
         // Initialize the animation frames using images from Resources
         walkUp = new BufferedImage[]{Resources.playerBStill, Resources.playerBWalk1, Resources.playerBWalk2};
@@ -40,8 +40,6 @@ public class Player extends Sprite {
         else if (dx > 0) currentDirection = "RIGHT";
         else if (dy < 0) currentDirection = "UP";
         else if (dy > 0) currentDirection = "DOWN";
-
-
     }
 
     private void updateAnimationFrame() {
