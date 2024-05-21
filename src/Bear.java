@@ -14,13 +14,5 @@ public class Bear extends Enemy{
     @Override
     protected int getAnimationFrameCount() {
         return 2;
-    }
-//    @Override
-//    private void updateAnimationFrame() {
-//        long now = System.currentTimeMillis();
-//        if (now - lastFrameTime >= 200) {  // Adjust the frame duration as needed
-//            frameIndex = (frameIndex + 1) % 3;
-//            lastFrameTime = now;
-//        }
-//    }
+
 }
