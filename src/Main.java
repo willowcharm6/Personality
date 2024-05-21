@@ -2,21 +2,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Main extends JPanel {
     private boolean[] keys;
     private boolean started;
-    private Sprite player;
+    private Player player;
+    private ArrayList<Enemy> enemies;
+    private Integer enemyCount = 5;
 
     public Main(int width, int height) {
         super();
 
         player = new Player(new Point(400, 700));
         started = false;
-
+        enemies = new ArrayList<>();
 
         setSize(width, height);
         keys = new boolean[256];
+
+        //for loop to make enemies
+        for (int n = 0; n < 5; n++) {
+            enemies.add(new Enemy(new Point(30, 30)));
+        }
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
@@ -29,27 +37,39 @@ public class Main extends JPanel {
         Timer timer = new Timer(1000/60, e -> update());
         timer.start();
     }
-    public void update(){
+    public void update() {
         if (!started && keys[KeyEvent.VK_SPACE]) {
             started = true;
         }
 
-        if (keys[KeyEvent.VK_A]||keys[KeyEvent.VK_LEFT]){
-            player.move(-2, 0);
-        }
-        if (keys[KeyEvent.VK_S]||keys[KeyEvent.VK_DOWN]){
-            player.move(0, 2);
-        }
-        if (keys[KeyEvent.VK_D]||keys[KeyEvent.VK_RIGHT]){
-            player.move(2, 0);
-        }
-        if (keys[KeyEvent.VK_W]||keys[KeyEvent.VK_UP]){
-            player.move(0, -2);
+        //moving keys (AWSD and arrow)
+        {
+            if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]) {
+                player.move(-2, 0);
+            }
+            if (keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]) {
+                player.move(0, 2);
+            }
+            if (keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]) {
+                player.move(2, 0);
+            }
+            if (keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]) {
+                player.move(0, -2);
+            }
         }
 
         if(keys[KeyEvent.VK_SPACE]){  //jump?
 //            player.jump();
             keys[KeyEvent.VK_SPACE] = false;  // no holding jump, ruins double jump
+        }
+
+        if (started) {
+            for (Enemy enemy : enemies) {
+                enemy.update();
+            }
+            while (enemies.size() < enemyCount) {
+                enemies.add(new Enemy(new Point(60, 60)));
+            }
         }
 
         repaint();  //update graphics
@@ -60,11 +80,16 @@ public class Main extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        //background
-        g2.setColor(new Color(0xbdd980));
-        g2.fillRect(0, 0, 800, 800);
+        if (started) {
+            //background
+            g2.setColor(new Color(0xbdd980));
+            g2.fillRect(0, 0, 800, 800);
 
-        player.draw(g2);
+            player.draw(g2);
+            for (Enemy enemy : enemies) {
+                enemy.draw(g2);
+            }
+        }
 
         if (!started) {
             int stretchedWidth = 800;

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Sprite {
-    private BufferedImage[] walkUp, walkDown, walkLeft, walkRight;
+    protected BufferedImage[] walkUp, walkDown, walkLeft, walkRight;
     private int frameIndex = 0;
     private long lastFrameTime = 0;
     private String currentDirection = "DOWN";
@@ -11,6 +11,10 @@ public class Sprite {
 
     public Sprite(Point location) {
         this.location = location;
+        walkUp = new BufferedImage[]{Resources.playerBStill, Resources.playerBWalk1, Resources.playerBWalk2};
+        walkDown = new BufferedImage[]{Resources.playerFront, Resources.playerFWalk1, Resources.playerFWalk2};
+        walkLeft = new BufferedImage[]{Resources.playerLeft, Resources.playerLWalk, Resources.playerLeft};
+        walkRight = new BufferedImage[]{Resources.playerRight, Resources.playerRWalk, Resources.playerRight};
     }
     public void draw(Graphics2D g2){
         g2.drawImage(getCurrentFrame(), getX(), getY(), null);
