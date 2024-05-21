@@ -13,8 +13,9 @@ public class Resources {
     public static BufferedImage playerFront, titleCard, playerBStill, playerBWalk1, playerBWalk2,
             playerFWalk1, playerFWalk2, playerLeft, playerLWalk, playerRight, playerRWalk, enemyBack,
             enemyBWalk1, enemyBWalk2, enemyFront, enemyFWalk1, enemyFWalk2, enemyLeft, enemyLWalk,
-            enemyRight, enemyRWalk, bearBack, bearBWalk1, bearBWalk2, bearFront, bearFWalk1,
-            bearFWalk2, bearLeft, bearLWalk, bearRight, bearRWalk;
+            enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
+            bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
+            aminaRight, aminaRWalk, aminaIdle;
 
 
 
@@ -58,6 +59,18 @@ public class Resources {
                 bearLWalk = ImageIO.read(new File("./res/Bear/Bear_sprite_left_walk.png"));
                 bearRight = ImageIO.read(new File("./res/Bear/Bear_sprite_right.png"));
                 bearRWalk = ImageIO.read(new File("./res/Bear/Bear_sprite_right_walk.png"));
+            }
+            //Amina images
+            {
+                aminaBack = ImageIO.read(new File("./res/Amina/Amina_sprite_back.png"));
+                aminaBWalk1 = ImageIO.read(new File("./res/Amina/Amina_sprite_back_walk.png"));
+                aminaFront = ImageIO.read(new File("./res/Amina/Amina_sprite_front.png"));
+                aminaFWalk1 = ImageIO.read(new File("./res/Amina/Amina_sprite_front_walk.png"));
+                aminaLeft = ImageIO.read(new File("./res/Amina/Amina_sprite_left.png"));
+                aminaLWalk = ImageIO.read(new File("./res/Amina/Amina_sprite__left_walk.png"));
+                aminaRight = ImageIO.read(new File("./res/Amina/Amina_sprite_right.png"));
+                aminaRWalk = ImageIO.read(new File("./res/Amina/Amina_sprite_right_walk.png"));
+                aminaIdle = ImageIO.read(new File("./res/Amina/Amina_sprite_idle.png"));
             }
 
 

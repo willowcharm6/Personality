@@ -12,19 +12,19 @@ public class Enemy extends Sprite{
     public Enemy(Point location) {
         super(location);
 
-        walkUp = new BufferedImage[]{Resources.enemyBack, Resources.enemyBWalk1, Resources.enemyBack, Resources.enemyBWalk2};
-        walkDown = new BufferedImage[]{Resources.enemyFront, Resources.enemyFWalk1, Resources.enemyFront, Resources.enemyFWalk2};
-        walkLeft = new BufferedImage[]{Resources.enemyLeft, Resources.enemyLWalk, Resources.enemyLeft, Resources.enemyLWalk};
-        walkRight = new BufferedImage[]{Resources.enemyRight, Resources.enemyRWalk, Resources.enemyRight, Resources.enemyRWalk};
-
         random = new Random();
         changeDirection();
     }
 
     @Override
-    protected int getAnimationFrameCount() {
-        return 4;
+    protected void setImages() {
+        // Initialize the animation frames using images from Resources
+        walkUp = new BufferedImage[]{Resources.enemyBack, Resources.enemyBWalk1, Resources.enemyBack, Resources.enemyBWalk2};
+        walkDown = new BufferedImage[]{Resources.enemyFront, Resources.enemyFWalk1, Resources.enemyFront, Resources.enemyFWalk2};
+        walkLeft = new BufferedImage[]{Resources.enemyLeft, Resources.enemyLWalk, Resources.enemyLeft, Resources.enemyLWalk};
+        walkRight = new BufferedImage[]{Resources.enemyRight, Resources.enemyRWalk, Resources.enemyRight, Resources.enemyRWalk};
     }
+
 
     public void update(){
         move(dx, dy);

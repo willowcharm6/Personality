@@ -10,7 +10,9 @@ public class Player extends Sprite {
 
     public Player(Point location) {
         super(location);
-
+    }
+    @Override
+    protected void setImages() {
         // Initialize the animation frames using images from Resources
         walkUp = new BufferedImage[]{Resources.playerBStill, Resources.playerBWalk1, Resources.playerBStill, Resources.playerBWalk2};
         walkDown = new BufferedImage[]{Resources.playerFront, Resources.playerFWalk1, Resources.playerFront, Resources.playerFWalk2};
@@ -42,15 +44,11 @@ public class Player extends Sprite {
         else if (dy > 0) currentDirection = "DOWN";
     }
 
-    @Override
-    protected int getAnimationFrameCount() {
-        return 4;
-    }
 
     private void updateAnimationFrame() {
         long now = System.currentTimeMillis();
         if (now - lastFrameTime >= 200) {  // Adjust the frame duration as needed
-            frameIndex = (frameIndex + 1) % getAnimationFrameCount();
+            frameIndex = (frameIndex + 1) % 4;
             lastFrameTime = now;
         }
     }

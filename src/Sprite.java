@@ -11,11 +11,10 @@ public abstract class Sprite {
 
     public Sprite(Point location) {
         this.location = location;
-        walkUp = new BufferedImage[]{Resources.playerBStill, Resources.playerBWalk1, Resources.playerBWalk2};
-        walkDown = new BufferedImage[]{Resources.playerFront, Resources.playerFWalk1, Resources.playerFWalk2};
-        walkLeft = new BufferedImage[]{Resources.playerLeft, Resources.playerLWalk, Resources.playerLeft};
-        walkRight = new BufferedImage[]{Resources.playerRight, Resources.playerRWalk, Resources.playerRight};
+        setImages();
     }
+
+    protected abstract void setImages();
     public void draw(Graphics2D g2){
         g2.drawImage(getCurrentFrame(), getX(), getY(), null);
     }
@@ -45,12 +44,10 @@ public abstract class Sprite {
         else if (dy > 0) currentDirection = "DOWN";
     }
 
-    protected abstract int getAnimationFrameCount();
-
     private void updateAnimationFrame() {
         long now = System.currentTimeMillis();
         if (now - lastFrameTime >= 200) {  // Adjust the frame duration as needed
-            frameIndex = (frameIndex + 1) % getAnimationFrameCount();
+            frameIndex = (frameIndex + 1) % 4;
             lastFrameTime = now;
         }
     }
@@ -70,5 +67,9 @@ public abstract class Sprite {
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+
+    public Point getLocation() {
+        return location;
     }
 }
