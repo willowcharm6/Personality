@@ -50,16 +50,16 @@ public class Resources {
             }
             //bear images
             {
-                bearBack = ImageIO.read(new File("./res/Bear/Enemy_sprite_back.png"));
-                bearBWalk1 = ImageIO.read(new File("./res/Bear/Enemy_sprite_back_walk1.png"));
-                bearBWalk2 = ImageIO.read(new File("./res/Bear/Enemy_sprite_back_walk2.png"));
-                bearFront = ImageIO.read(new File("./res/Bear/Enemy_sprite_front.png"));
-                bearFWalk1 = ImageIO.read(new File("./res/Bear/Enemy_sprite_front_walk1.png"));
-                bearFWalk2 = ImageIO.read(new File("./res/Bear/Enemy_sprite_front_walk2.png"));
-                bearLeft = ImageIO.read(new File("./res/Bear/Enemy_sprite_left.png"));
-                bearLWalk = ImageIO.read(new File("./res/Bear/Enemy_sprite_left_walk.png"));
-                bearRight = ImageIO.read(new File("./res/Bear/Enemy_sprite_right.png"));
-                bearRWalk = ImageIO.read(new File("./res/Bear/Enemy_sprite_right_walk.png"));
+                bearBack = ImageIO.read(new File("./res/Bear/Bear_sprite_back.png"));
+                bearBWalk1 = ImageIO.read(new File("./res/Bear/Bear_sprite_back_walk1.png"));
+                bearBWalk2 = ImageIO.read(new File("./res/Bear/Bear_sprite_back_walk2.png"));
+                bearFront = ImageIO.read(new File("./res/Bear/Bear_sprite_front.png"));
+                bearFWalk1 = ImageIO.read(new File("./res/Bear/Bear_sprite_front_walk1.png"));
+                bearFWalk2 = ImageIO.read(new File("./res/Bear/Bear_sprite_front_walk2.png"));
+                bearLeft = ImageIO.read(new File("./res/Bear/Bear_sprite_left.png"));
+                bearLWalk = ImageIO.read(new File("./res/Bear/Bear_sprite_left_walk.png"));
+                bearRight = ImageIO.read(new File("./res/Bear/Bear_sprite_right.png"));
+                bearRWalk = ImageIO.read(new File("./res/Bear/Bear_sprite_right_walk.png"));
             }
 
 
