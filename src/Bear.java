@@ -15,4 +15,5 @@ public class Bear extends Enemy{
     protected int getAnimationFrameCount() {
         return 2;
 
+    }
 }
