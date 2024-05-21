@@ -21,6 +21,11 @@ public class Enemy extends Sprite{
         changeDirection();
     }
 
+    @Override
+    protected int getAnimationFrameCount() {
+        return 3;
+    }
+
     public void update(){
         move(dx, dy);
         // Change direction at intervals

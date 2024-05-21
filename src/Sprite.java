@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Sprite {
+public abstract class Sprite {
     protected BufferedImage[] walkUp, walkDown, walkLeft, walkRight;
     private int frameIndex = 0;
     private long lastFrameTime = 0;
@@ -45,10 +45,12 @@ public class Sprite {
         else if (dy > 0) currentDirection = "DOWN";
     }
 
+    protected abstract int getAnimationFrameCount();
+
     private void updateAnimationFrame() {
         long now = System.currentTimeMillis();
         if (now - lastFrameTime >= 200) {  // Adjust the frame duration as needed
-            frameIndex = (frameIndex + 1) % 3;
+            frameIndex = (frameIndex + 1) % getAnimationFrameCount();
             lastFrameTime = now;
         }
     }

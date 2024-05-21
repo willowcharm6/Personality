@@ -42,10 +42,15 @@ public class Player extends Sprite {
         else if (dy > 0) currentDirection = "DOWN";
     }
 
+    @Override
+    protected int getAnimationFrameCount() {
+        return 3;
+    }
+
     private void updateAnimationFrame() {
         long now = System.currentTimeMillis();
         if (now - lastFrameTime >= 200) {  // Adjust the frame duration as needed
-            frameIndex = (frameIndex + 1) % 3;
+            frameIndex = (frameIndex + 1) % getAnimationFrameCount();
             lastFrameTime = now;
         }
     }

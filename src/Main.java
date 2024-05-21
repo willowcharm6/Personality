@@ -8,7 +8,7 @@ public class Main extends JPanel {
     private boolean[] keys;
     private boolean started;
     private Player player;
-    private ArrayList<Enemy> enemies;
+    private ArrayList<Enemy> enemies, bears;
     private Integer enemyCount = 5;
 
     public Main(int width, int height) {
@@ -17,13 +17,18 @@ public class Main extends JPanel {
         player = new Player(new Point(400, 700));
         started = false;
         enemies = new ArrayList<>();
+        bears = new ArrayList<>();
 
         setSize(width, height);
         keys = new boolean[256];
 
         //for loop to make enemies
         for (int n = 0; n < 5; n++) {
-            enemies.add(new Enemy(new Point(30, 30)));
+            enemies.add(new Enemy(new Point(60, 60)));
+        }
+        //for bear to make enemies
+        for (int n = 0; n < 5; n++) {
+            bears.add(new Bear(new Point(800-60, 60)));
         }
 
         addKeyListener(new KeyAdapter() {
@@ -70,6 +75,12 @@ public class Main extends JPanel {
             while (enemies.size() < enemyCount) {
                 enemies.add(new Enemy(new Point(60, 60)));
             }
+            for (Enemy bear : bears) {
+                bear.update();
+            }
+            while (bears.size() < enemyCount) {
+                bears.add(new Bear(new Point(60, 60)));
+            }
         }
 
         repaint();  //update graphics
@@ -88,6 +99,9 @@ public class Main extends JPanel {
             player.draw(g2);
             for (Enemy enemy : enemies) {
                 enemy.draw(g2);
+            }
+            for (Enemy bear : bears) {
+                bear.draw(g2);
             }
         }
 
