@@ -61,18 +61,21 @@ public class Main extends JPanel {
         if (started) {
             //moving keys (AWSD and arrow)
             {
+                int dx = 0;
+                int dy = 0;
                 if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]) {
-                    player.move(-2, 0);
+                    dx = -2;
                 }
                 if (keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]) {
-                    player.move(0, 2);
+                    dy = 2;
                 }
                 if (keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]) {
-                    player.move(2, 0);
+                    dx = 2;
                 }
                 if (keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]) {
-                    player.move(0, -2);
+                    dy = -2;
                 }
+                player.move(dx, dy);
             }
 
             for (Enemy enemy : enemies) {
