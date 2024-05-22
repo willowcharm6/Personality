@@ -15,14 +15,19 @@ public class Resources {
             enemyBWalk1, enemyBWalk2, enemyFront, enemyFWalk1, enemyFWalk2, enemyLeft, enemyLWalk,
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
-            aminaRight, aminaRWalk, aminaIdle;
+            aminaRight, aminaRWalk, aminaIdle, auctionHouse;
 
 
 
 
     static{
         try{
+
+            //random stuff
+
+            auctionHouse = ImageIO.read(new File("./res/AuctionHouse.png"));
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
+
             // player images
             {
                 playerFront = ImageIO.read(new File("./res/Player/Player_sprite_front.png"));

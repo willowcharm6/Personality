@@ -111,6 +111,8 @@ public class Main extends JPanel {
             g2.setColor(new Color(0xbdd980));
             g2.fillRect(0, 0, 800, 800);
 
+         g2.drawImage(Resources.auctionHouse, 250, 100, null);
+
             player.draw(g2);
             for (Enemy enemy : enemies) {
                 enemy.draw(g2);
