@@ -15,7 +15,7 @@ public class Resources {
             enemyBWalk1, enemyBWalk2, enemyFront, enemyFWalk1, enemyFWalk2, enemyLeft, enemyLWalk,
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
-            aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl;
+            aminaRight, aminaRWalk, aminaIdle, auctionHouse, auctionHouse2, aminaPlants, aminaSwirl, cave;
 
 
 
@@ -26,6 +26,9 @@ public class Resources {
             //random stuff
 
             auctionHouse = ImageIO.read(new File("./res/AuctionHouse.png"));
+            auctionHouse2 = ImageIO.read(new File("./res/AuctionHouse2.png"));
+            cave = ImageIO.read(new File("./res/cave.png"));
+
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
 
             // player images
