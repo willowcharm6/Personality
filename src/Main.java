@@ -126,6 +126,10 @@ public class Main extends JPanel {
             for (Character chars : characters){
                 chars.draw(g2);
             }
+
+            g2.drawImage(Resources.auctionHouse2, 250, 100, null);
+
+
         }
 
         if (!started) {
