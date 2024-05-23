@@ -15,7 +15,7 @@ public class Resources {
             enemyBWalk1, enemyBWalk2, enemyFront, enemyFWalk1, enemyFWalk2, enemyLeft, enemyLWalk,
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
-            aminaRight, aminaRWalk, aminaIdle, auctionHouse;
+            aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl;
 
 
 
@@ -76,6 +76,8 @@ public class Resources {
                 aminaRight = ImageIO.read(new File("./res/Amina/Amina_sprite_right.png"));
                 aminaRWalk = ImageIO.read(new File("./res/Amina/Amina_sprite_right_walk.png"));
                 aminaIdle = ImageIO.read(new File("./res/Amina/Amina_sprite_idle.png"));
+                aminaPlants = ImageIO.read(new File("./res/Attacks/Amina_Plants.png"));
+                aminaSwirl = ImageIO.read(new File("./res/Attacks/Amina_Swirl.png"));
             }
 
 
