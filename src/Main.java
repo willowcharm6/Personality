@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main extends JPanel {
@@ -13,6 +15,8 @@ public class Main extends JPanel {
     private ArrayList<Bear> bears;
     private ArrayList<Character> characters;
     private Integer enemyCount = 5;
+    private Integer money = 0;
+    private static Font dayDream;
 
     public Main(int width, int height) {
         super();
@@ -54,6 +58,7 @@ public class Main extends JPanel {
         timer.start();
     }
     public void update() {
+
         if (!started && keys[KeyEvent.VK_SPACE]) {
             started = true;
         }
@@ -108,13 +113,15 @@ public class Main extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        Font sizedFont = dayDream.deriveFont(24f);
+        g2.setFont(sizedFont);
 
         if (started) {
             //background
             g2.setColor(new Color(0xbdd980));
             g2.fillRect(0, 0, 800, 800);
 
-         g2.drawImage(Resources.auctionHouse, 250, 100, null);
+            g2.drawImage(Resources.auctionHouse, 250, 100, null);
 
             player.draw(g2);
             for (Enemy enemy : enemies) {
@@ -136,14 +143,24 @@ public class Main extends JPanel {
             int stretchedWidth = 800;
             int stretchedHeight = 800;
             g2.drawImage(Resources.titleCard, 0, 0, stretchedWidth, stretchedHeight, null);
-
             g2.setColor(new Color(0x3c7c54));
-            g2.setFont(new Font("impact", Font.PLAIN, 60));
             g2.drawString("PRESS SPACE TO START", 130, 550);
         }
 
     }
     public static void main(String[] args) {
+        // font
+        {
+            // Load the custom font
+            String fontPath = "./res/Daydream.ttf";
+            try {
+                dayDream = Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)).deriveFont(24f);
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                ge.registerFont(dayDream);
+            } catch (FontFormatException | IOException e) {
+                e.printStackTrace();
+            }
+        }
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
