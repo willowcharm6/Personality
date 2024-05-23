@@ -7,9 +7,8 @@ public class Projectile {
     private Point location;
     private int speed;
     private int maxFrames, frameCount;
-//        super(Resources., location);
 
-    public Projectile(BufferedImage image, Point location){
+    public Projectile(Point location) {
+        this.location = location;
     }
-
 }

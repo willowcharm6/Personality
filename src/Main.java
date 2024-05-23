@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 public class Main extends JPanel {
     private boolean[] keys;
     private boolean started;
@@ -17,6 +20,8 @@ public class Main extends JPanel {
     private Integer enemyCount = 5;
     private Integer money = 0;
     private static Font dayDream;
+    private int mouseX;
+    private int mouseY;
 
     public Main(int width, int height) {
         super();
@@ -32,7 +37,7 @@ public class Main extends JPanel {
 
         //for loop to make enemies
         for (int n = 0; n < 5; n++) {
-            enemies.add(new Enemy(new Point(60, 60)));
+            enemies.add(new Enemy(new Point(95, 125)));
         }
         //for bear to make bears
         for (int n = 0; n < 5; n++) {
@@ -54,8 +59,45 @@ public class Main extends JPanel {
                 keys[e.getKeyCode()] = false;
             }
         });
+
+
+
+            addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int x = e.getX();
+                    int y = e.getY();
+                    System.out.println(x + ", " + y);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+
+
+
         Timer timer = new Timer(1000/60, e -> update());
         timer.start();
+
+
+
     }
     public void update() {
         if (!started && keys[KeyEvent.VK_SPACE]) {
@@ -86,7 +128,7 @@ public class Main extends JPanel {
                 enemy.update();
             }
             while (enemies.size() < enemyCount) {
-                enemies.add(new Enemy(new Point(60, 60)));
+                enemies.add(new Enemy(new Point(95, 125)));
             }
             for (Bear bear : bears) {
                 bear.update();
@@ -120,7 +162,9 @@ public class Main extends JPanel {
             g2.setColor(new Color(0xbdd980));
             g2.fillRect(0, 0, 800, 800);
 
+         g2.drawImage(Resources.lair, 0, -25, 200, 200, null);
          g2.drawImage(Resources.cave, 650, -25, 200, 200, null);
+
          g2.drawImage(Resources.auctionHouse, 250, 100, null);
 
             player.draw(g2);
@@ -146,8 +190,10 @@ public class Main extends JPanel {
             g2.setColor(new Color(0x3c7c54));
             g2.drawString("PRESS SPACE TO START", 130, 550);
         }
-
     }
+
+
+
     public static void main(String[] args) {
         // font
         {
