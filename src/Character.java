@@ -1,18 +1,18 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Character extends Sprite {
-
+    private String type = "";
     public Character(Point location, BufferedImage[] walkUp, BufferedImage[] walkDown,
-                     BufferedImage[] walkLeft, BufferedImage[] walkRight) {
+                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type) {
         super(location);
         this.walkUp = walkUp;
         this.walkDown = walkDown;
         this.walkLeft = walkLeft;
         this.walkRight = walkRight;
-        setImages();
+        this.type = type;
     }
-
 
     @Override
     protected void setImages() {
