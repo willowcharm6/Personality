@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 
 public class Main extends JPanel {
     private boolean[] keys;
@@ -65,9 +67,9 @@ public class Main extends JPanel {
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    int x = e.getX();
-                    int y = e.getY();
-                    System.out.println(x + ", " + y);
+//                    int x = e.getX();
+//                    int y = e.getY();
+//                    System.out.println(x + ", " + y);
                 }
 
                 @Override
@@ -91,6 +93,18 @@ public class Main extends JPanel {
                 }
             });
 
+        addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // Optionally handle dragging if needed
+            }
+        });
 
 
         Timer timer = new Timer(1000/60, e -> update());
@@ -142,9 +156,12 @@ public class Main extends JPanel {
             }
 
             if (keys[KeyEvent.VK_SPACE]) {  //jump?
+                player.shoot();
+
 //            player.jump();
                 keys[KeyEvent.VK_SPACE] = false;  // no holding jump, ruins double jump
             }
+
         }
 
         repaint();  //update graphics
@@ -188,7 +205,7 @@ public class Main extends JPanel {
             int stretchedHeight = 800;
             g2.drawImage(Resources.titleCard, 0, 0, stretchedWidth, stretchedHeight, null);
             g2.setColor(new Color(0x3c7c54));
-            g2.drawString("PRESS SPACE TO START", 130, 550);
+            g2.drawString("PRESS SPACE TO START", 160, 550);
         }
     }
 

@@ -19,6 +19,7 @@ public abstract class Sprite {
         g2.drawImage(getCurrentFrame(), getX(), getY(), null);
     }
 
+
     public void move(int dx, int dy) {
         int imageSize = 32;
         int newX = getX() + dx;

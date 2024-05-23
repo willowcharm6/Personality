@@ -2,9 +2,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Player extends Sprite {
+    private boolean isShooting;
 
     public Player(Point location) {
         super(location);
+        isShooting = false;
+    }
+
+    public void shoot(){
+        isShooting = true;
     }
     @Override
     protected void setImages() {
