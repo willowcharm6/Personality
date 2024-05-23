@@ -36,7 +36,7 @@ public class Main extends JPanel {
         }
         //for bear to make bears
         for (int n = 0; n < 5; n++) {
-            bears.add(new Bear(new Point(800-60, 60)));
+            bears.add(new Bear(new Point(800-70, 100)));
         }
         //characters
         characters.add(new Character(new Point(100, 100),
@@ -58,7 +58,6 @@ public class Main extends JPanel {
         timer.start();
     }
     public void update() {
-
         if (!started && keys[KeyEvent.VK_SPACE]) {
             started = true;
         }
@@ -93,7 +92,7 @@ public class Main extends JPanel {
                 bear.update();
             }
             while (bears.size() < enemyCount) {
-                bears.add(new Bear(new Point(60, 60)));
+                bears.add(new Bear(new Point(70, 100)));
             }
 
             for (Character chars : characters) {
@@ -121,7 +120,8 @@ public class Main extends JPanel {
             g2.setColor(new Color(0xbdd980));
             g2.fillRect(0, 0, 800, 800);
 
-            g2.drawImage(Resources.auctionHouse, 250, 100, null);
+         g2.drawImage(Resources.cave, 650, -25, 200, 200, null);
+         g2.drawImage(Resources.auctionHouse, 250, 100, null);
 
             player.draw(g2);
             for (Enemy enemy : enemies) {
