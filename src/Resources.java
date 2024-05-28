@@ -17,9 +17,7 @@ public class Resources {
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
             aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl, amina,
             cave, auctionHouse2, lair, inAuctionHouse, caspianBack, caspianBWalk1, caspianBWalk2, caspianFront, caspianFWalk1, caspianFWalk2, caspianLeft, caspianLWalk,
-    caspianRight, caspianRWalk, caspianIdle, caspianRain, caspianWave1, caspian;
-            aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl,
-            cave, auctionHouse2, lair, lair2;
+    caspianRight, caspianRWalk, caspianIdle, caspianRain, caspianWave1, caspian, lair2;
 
 
 
