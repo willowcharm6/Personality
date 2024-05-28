@@ -123,7 +123,8 @@ public class Main extends JPanel {
 
     }
     public void update() {
-        frameCount++;
+        if(started)
+            frameCount++;
 
         if (!started && keys[KeyEvent.VK_SPACE]) {
             started = true;
@@ -162,7 +163,7 @@ public class Main extends JPanel {
 
             for (Character chars : characters) {
                 chars.followPlayer(player, 80);
-                if (frameCount > 15) {
+                if (frameCount > 5 && keys[KeyEvent.VK_SPACE] && started) {
                     projectile.add(new Projectile(chars.getLocation(), 1, Resources.aminaSwirl, new Point(mouseX, mouseY)));
                     frameCount = 0;
                 }
