@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Character extends Sprite {
     private String type = "";
+    private BufferedImage image;
     private Point location;
 
     public Character(Point location, BufferedImage[] walkUp, BufferedImage[] walkDown,
-                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type) {
-        super(location);
+                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type, BufferedImage image) {
+        super(location, image);
         this.walkUp = walkUp;
         this.walkDown = walkDown;
         this.walkLeft = walkLeft;

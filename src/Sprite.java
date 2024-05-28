@@ -9,16 +9,35 @@ public abstract class Sprite {
     private boolean moving = false;
     private Point location;
     private int health;
+    private BufferedImage image;
 
-    public Sprite(Point location) {
+
+    public Sprite(Point location, BufferedImage image) {
         this.location = location;
         setImages();
         health = 90;
+        this.image = image;
     }
 
     protected abstract void setImages();
     public void draw(Graphics2D g2){
         g2.drawImage(getCurrentFrame(), getX(), getY(), null);
+    }
+
+    public int getImageWidth(){
+        return image.getWidth();
+    }
+
+    public int getImageHeight(){
+        return image.getHeight();
+    }
+
+    public void loseHealth(int amount){
+        health = health-amount;
+    }
+
+    public int getHealth(){
+        return health;
     }
 
 
@@ -74,5 +93,11 @@ public abstract class Sprite {
 
     public Point getLocation() {
         return location;
+    }
+
+    public boolean intersects(Sprite other){
+        Rectangle hitBox = new Rectangle(location.x, location.y, image.getWidth(), image.getHeight());
+        Rectangle otherHitBox = new Rectangle(other.location.x, other.location.y, other.image.getWidth(), other.image.getHeight());
+        return hitBox.intersects(otherHitBox);
     }
 }

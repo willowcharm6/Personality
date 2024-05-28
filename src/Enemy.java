@@ -8,9 +8,10 @@ public class Enemy extends Sprite{
     private Random random;
     private long lastDirectionChangeTime;
     private static final long DIRECTION_CHANGE_INTERVAL = 2000; // 2 seconds
+    private BufferedImage image;
 
-    public Enemy(Point location) {
-        super(location);
+    public Enemy(Point location, BufferedImage image) {
+        super(location, image);
 
         random = new Random();
         changeDirection();

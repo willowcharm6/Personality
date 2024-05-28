@@ -33,7 +33,7 @@ public class Main extends JPanel {
     public Main(int width, int height) {
         super();
 
-        player = new Player(new Point(400, 700));
+        player = new Player(new Point(400, 700), Resources.playerBStill);
         started = false;
         enemies = new ArrayList<>();
         bears = new ArrayList<>();
@@ -48,18 +48,18 @@ public class Main extends JPanel {
 
         //for loop to make enemies
         for (int n = 0; n < 5; n++) {
-            enemies.add(new Enemy(new Point(95, 125)));
+            enemies.add(new Enemy(new Point(95, 125), Resources.enemyFront));
         }
         //for bear to make bears
         for (int n = 0; n < 5; n++) {
-            bears.add(new Bear(new Point(800-70, 100)));
+            bears.add(new Bear(new Point(800-70, 100), Resources.bearFront));
         }
         //characters
         characters.add(new Character(new Point(400, 300),
                 new BufferedImage[]{Resources.aminaBack, Resources.aminaBWalk1, Resources.aminaBack, Resources.aminaBWalk1},
                 new BufferedImage[]{Resources.aminaFront, Resources.aminaFWalk1, Resources.aminaIdle, Resources.aminaFWalk1},
                 new BufferedImage[]{Resources.aminaLeft, Resources.aminaLWalk, Resources.aminaLeft, Resources.aminaLWalk},
-                new BufferedImage[]{Resources.aminaRight, Resources.aminaRWalk, Resources.aminaRight, Resources.aminaRWalk}, "amina"
+                new BufferedImage[]{Resources.aminaRight, Resources.aminaRWalk, Resources.aminaRight, Resources.aminaRWalk}, "amina", Resources.aminaFront
         ));
 
         addKeyListener(new KeyAdapter() {
@@ -153,13 +153,13 @@ public class Main extends JPanel {
                 enemy.update();
             }
             while (enemies.size() < enemyCount) {
-                enemies.add(new Enemy(new Point(95, 125)));
+                enemies.add(new Enemy(new Point(95, 125), Resources.enemyFront));
             }
             for (Bear bear : bears) {
                 bear.update();
             }
             while (bears.size() < enemyCount) {
-                bears.add(new Bear(new Point(70, 100)));
+                bears.add(new Bear(new Point(740, 100), Resources.bearFront));
             }
 
             for (Character chars : characters) {
@@ -179,6 +179,45 @@ public class Main extends JPanel {
                     proj.followMouse(6);
                 }
             }
+
+
+            // Help this doesn't work :(
+            // delete projectile if hits bear, enemy, or is out of frame
+            for (int i = 0; i < projectile.size(); i++) {
+
+                for (int j = 0; j < bears.size(); j++) {
+                    if (projectile.get(i).intersects(bears.get(j)) && projectile.size()>0 && bears.size()>0) {
+                        projectile.remove(i);
+                        bears.get(i).loseHealth(30);
+                    }
+                }
+                for (int j = 0; j < enemies.size(); j++) {
+                    if (projectile.get(i).intersects(enemies.get(j)) && projectile.size()>0 && enemies.size()>0) {
+                        projectile.remove(i);
+                        enemies.get(i).loseHealth(30);
+                    }
+                }
+
+                if (projectile.get(i).getX() > 800 || projectile.get(i).getX() < 0 || projectile.get(i).getY() > 800 || projectile.get(i).getY() < 0){
+                    projectile.remove(i);
+                }
+            }
+
+            for (int j = 0; j < bears.size(); j++) {
+                if (bears.get(j).getHealth() < 1) {
+                    bears.remove(j);
+                    j--;
+                    player.changeCoins(5);
+                }
+            }
+            for (int j = 0; j < enemies.size(); j++) {
+                if (enemies.get(j).getHealth() < 1) {
+                    enemies.remove(j);
+                    j--;
+                    player.changeCoins(5);
+                }
+            }
+
 
 
 
@@ -210,6 +249,11 @@ public class Main extends JPanel {
          g2.drawImage(Resources.cave, 650, -25, 200, 200, null);
 
          g2.drawImage(Resources.auctionHouse, 250, 100, null);
+
+         g2.setColor(new Color(0x3c7c54));
+         g2.setFont(sizedFont);
+         g2.drawString("Coins: " + player.getCoins(), 580, 775);
+
 
             player.draw(g2);
             for (Enemy enemy : enemies) {

@@ -42,7 +42,22 @@ public class Projectile{
 //        }
     }
 
+    public int getX(){
+        return(location.x);
+    }
+
+    public int getY(){
+        return(location.y);
+    }
+
     public void draw2(Graphics2D g2, BufferedImage image){
         g2.drawImage(image, location.x, location.y, null);
+    }
+
+
+    public boolean intersects(Sprite other){
+        Rectangle hitBox = new Rectangle(location.x, location.y, image.getWidth(), image.getHeight());
+        Rectangle otherHitBox = new Rectangle(other.getX(), other.getY(), other.getImageWidth(), other.getImageHeight());
+        return hitBox.intersects(otherHitBox);
     }
 }

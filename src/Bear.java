@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 public class Bear extends Enemy{
-    public Bear(Point location) {
-        super(location);
+    public Bear(Point location, BufferedImage image) {
+        super(location, image);
 
     }
     @Override
