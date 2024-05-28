@@ -8,14 +8,7 @@ public class Resources {
     // 2. Declare a variable before the static block.
     // 3. Initialize the variable by copying and pasting and modifying the
     //    ImageIO line.
-    public BufferedImage getFromString(String in) {
-        switch (in) {
-            case "playerFront":
-                return playerFront;
-        }
 
-        return null;
-    }
 
     public static BufferedImage playerFront, titleCard, playerBStill, playerBWalk1, playerBWalk2,
             playerFWalk1, playerFWalk2, playerLeft, playerLWalk, playerRight, playerRWalk, enemyBack,
@@ -25,6 +18,10 @@ public class Resources {
             aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl, amina,
             cave, auctionHouse2, lair, inAuctionHouse, caspianBack, caspianBWalk1, caspianBWalk2, caspianFront, caspianFWalk1, caspianFWalk2, caspianLeft, caspianLWalk,
     caspianRight, caspianRWalk, caspianIdle, caspianRain, caspianWave1, caspian;
+            aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl,
+            cave, auctionHouse2, lair, lair2;
+
+
 
 
     static{
@@ -36,6 +33,7 @@ public class Resources {
             auctionHouse2 = ImageIO.read(new File("./res/AuctionHouse2.png"));
             cave = ImageIO.read(new File("./res/cave.png"));
             lair = ImageIO.read(new File("./res/lair.png"));
+            lair2 = ImageIO.read(new File("./res/lair2.png"));
 
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
             inAuctionHouse = ImageIO.read(new File("./res/pause_box.png"));

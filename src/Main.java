@@ -14,25 +14,32 @@ import java.awt.event.MouseMotionListener;
 
 public class Main extends JPanel {
     private boolean[] keys;
+    private int frameCount;
+    private int mouseX;
+    private int mouseY;
     private boolean isstarted, inAuctionHouse;
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Bear> bears;
     private ArrayList<Character> characters;
+    private ArrayList<Projectile> projectile;
+    private ArrayList<Point> projPoint;
     private Integer enemyCount = 5;
     private Integer money = 0, charIndex = 0;
     private static Font dayDream;
-    private int mouseX;
-    private int mouseY;
+
 
     public Main(int width, int height) {
         super();
 
-        player = new Player(new Point(400, 700));
+        player = new Player(new Point(400, 700), Resources.playerBStill);
         isstarted = false;
         enemies = new ArrayList<>();
         bears = new ArrayList<>();
         characters = new ArrayList<>();
+        projectile = new ArrayList<>();
+        projPoint = new ArrayList<>();
+        frameCount = 0;
         inAuctionHouse = false;
 
         setSize(width, height);
@@ -40,24 +47,25 @@ public class Main extends JPanel {
 
         //for loop to make enemies
         for (int n = 0; n < 5; n++) {
-            enemies.add(new Enemy(new Point(95, 125)));
+            enemies.add(new Enemy(new Point(95, 125), Resources.enemyFront));
         }
         //for bear to make bears
         for (int n = 0; n < 5; n++) {
-            bears.add(new Bear(new Point(800-70, 100)));
+            bears.add(new Bear(new Point(800-70, 100), Resources.bearFront));
         }
         //characters
-        characters.add(new Character(new Point(100, 100),
+        characters.add(new Character(new Point(400, 300),
                 new BufferedImage[]{Resources.aminaBack, Resources.aminaBWalk1, Resources.aminaBack, Resources.aminaBWalk1},
                 new BufferedImage[]{Resources.aminaFront, Resources.aminaFWalk1, Resources.aminaIdle, Resources.aminaFWalk1},
                 new BufferedImage[]{Resources.aminaLeft, Resources.aminaLWalk, Resources.aminaLeft, Resources.aminaLWalk},
-                new BufferedImage[]{Resources.aminaRight, Resources.aminaRWalk, Resources.aminaRight, Resources.aminaRWalk}, "amina", Resources.amina
+                new BufferedImage[]{Resources.aminaRight, Resources.aminaRWalk, Resources.aminaRight, Resources.aminaRWalk}, 
+                "amina", Resources.aminaFront, Resources.amina
         ));
         characters.add(new Character(new Point(700, 100),
                 new BufferedImage[]{Resources.caspianBack, Resources.caspianBWalk1, Resources.caspianBack, Resources.caspianBWalk2},
                 new BufferedImage[]{Resources.caspianFront, Resources.caspianFWalk1, Resources.caspianIdle, Resources.caspianFWalk2},
                 new BufferedImage[]{Resources.caspianLeft, Resources.caspianLWalk, Resources.caspianLeft, Resources.caspianLWalk},
-                new BufferedImage[]{Resources.caspianRight, Resources.caspianRWalk, Resources.caspianRight, Resources.caspianRWalk}, "caspian", Resources.caspian
+                new BufferedImage[]{Resources.caspianRight, Resources.caspianRWalk, Resources.caspianRight, Resources.caspianRWalk}, "caspian", Resources.caspianIdle, Resources.caspian
         ));
 
         addKeyListener(new KeyAdapter() {
@@ -74,9 +82,7 @@ public class Main extends JPanel {
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    mouseX = e.getX();
-                    mouseY = e.getY();
-                    System.out.println(mouseX + ", " + mouseY);
+                    
                 }
 
                 @Override
@@ -103,8 +109,8 @@ public class Main extends JPanel {
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
+                mouseX = e.getX();
+                mouseY = e.getY();
             }
 
             @Override
@@ -121,6 +127,9 @@ public class Main extends JPanel {
 
     }
     public void update() {
+        if(isstarted)
+            frameCount++;
+        
         if (!isstarted && keys[KeyEvent.VK_SPACE]) {
             isstarted = true;
         }
@@ -167,30 +176,88 @@ public class Main extends JPanel {
                 enemy.update();
             }
             while (enemies.size() < enemyCount) {
-                enemies.add(new Enemy(new Point(95, 125)));
+                enemies.add(new Enemy(new Point(95, 125), Resources.enemyFront));
             }
             for (Bear bear : bears) {
                 bear.update();
             }
             while (bears.size() < enemyCount) {
-                bears.add(new Bear(new Point(70, 100)));
+                bears.add(new Bear(new Point(740, 100), Resources.bearFront));
             }
 
             for (Character chars : characters) {
                 chars.followPlayer(player, 80);
+                if (frameCount > 5 && keys[KeyEvent.VK_SPACE] && started) {
+                    projectile.add(new Projectile(chars.getLocation(), 1, Resources.aminaSwirl, new Point(mouseX, mouseY)));
+                    frameCount = 0;
+                }
             }
 
-            if (keys[KeyEvent.VK_SPACE]) {  //jump?
-                player.shoot();
-
-//            player.jump();
-                keys[KeyEvent.VK_SPACE] = false;  // no holding jump, ruins double jump
+            if (projPoint.size() > 0) {
+                for (Projectile proj : projectile) {
+                    proj.followMouse(6);
+                }
             }
 
+            // Remove projectiles if they hit a bear, enemy, or are out of frame
+            for (int i = projectile.size() - 1; i >= 0; i--) {
+                Projectile proj = projectile.get(i);
+                boolean removed = false;
+
+                // Check intersection with bears
+                for (int j = 0; j < bears.size(); j++) {
+                    if (proj.intersects(bears.get(j))) {
+                        bears.get(j).loseHealth(30);
+                        projectile.remove(i);
+                        removed = true;
+                        break;
+                    }
+                }
+
+                // Check intersection with enemies if not already removed
+                if (!removed) {
+                    for (int j = 0; j < enemies.size(); j++) {
+                        if (proj.intersects(enemies.get(j))) {
+                            enemies.get(j).loseHealth(30);
+                            projectile.remove(i);
+                            removed = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Check if the projectile is out of frame if not already removed
+                if (!removed) {
+                    if (proj.getX() > 800 || proj.getX() < 0 || proj.getY() > 800 || proj.getY() < 0) {
+                        projectile.remove(i);
+                    }
+                }
+            }
+
+            for (int j = 0; j < bears.size(); j++) {
+                if (bears.get(j).getHealth() < 1) {
+                    bears.remove(j);
+                    j--;
+                    player.changeCoins(5);
+                }
+            }
+            for (int j = 0; j < enemies.size(); j++) {
+                if (enemies.get(j).getHealth() < 1) {
+                    enemies.remove(j);
+                    j--;
+                    player.changeCoins(5);
+                }
+            }
+
+            if (keys[KeyEvent.VK_SPACE]) {
+                projPoint.add(new Point(mouseX, mouseY));
+                keys[KeyEvent.VK_SPACE] = false;
+            }
         }
 
-        repaint();  //update graphics
+        repaint(); // Update graphics
     }
+
     @Override
     // All drawing originates from this method
     protected void paintComponent(Graphics g) {
@@ -209,6 +276,11 @@ public class Main extends JPanel {
 
          g2.drawImage(Resources.auctionHouse, 250, 100, null);
 
+         g2.setColor(new Color(0x3c7c54));
+         g2.setFont(sizedFont);
+         g2.drawString("Coins: " + player.getCoins(), 580, 775);
+
+
             player.draw(g2);
             for (Enemy enemy : enemies) {
                 enemy.draw(g2);
@@ -219,9 +291,12 @@ public class Main extends JPanel {
             for (Character chars : characters){
                 chars.draw(g2);
             }
+            for (Projectile proj : projectile){
+                proj.draw2(g2, Resources.aminaSwirl);
+            }
 
             g2.drawImage(Resources.auctionHouse2, 250, 100, null);
-
+            g2.drawImage(Resources.lair2, 0, -25, 200, 200, null);
 
         }
         if (isstarted && inAuctionHouse){
@@ -258,6 +333,10 @@ public class Main extends JPanel {
 
         int width = 800;
         int height = 800;
+        int VIEWPORT_WIDTH = 400;
+        int VIEWPORT_HEIGHT = 400;
+        int characterX = 400;
+        int characterY = 400;
         window.setBounds(0, 0, width, height + 22); //(x, y, w, h) 22 due to title bar.
 
         JPanel panel = new Main(width, height);
@@ -266,7 +345,7 @@ public class Main extends JPanel {
 
         window.add(panel);
         window.setVisible(true);
-        window.setResizable(true);
+        window.setResizable(false);
     }
 
 }

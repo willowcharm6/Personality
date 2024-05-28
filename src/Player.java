@@ -3,10 +3,24 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Sprite {
     private boolean isShooting;
+    private BufferedImage image;
+    private int coins;
 
-    public Player(Point location) {
-        super(location);
+    public Player(Point location, BufferedImage image) {
+        super(location, image);
         isShooting = false;
+        coins = 0;
+    }
+
+    public int getCoins(){
+        return coins;
+    }
+
+    public void changeCoins(int amount){
+        coins = coins + amount;
+        if (coins > 999){
+            coins = 999;
+        }
     }
 
     public void shoot(){

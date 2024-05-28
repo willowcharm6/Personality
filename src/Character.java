@@ -5,9 +5,12 @@ import java.util.ArrayList;
 public class Character extends Sprite {
     private String type = "";
     private BufferedImage fullbody;
+    private BufferedImage image;
+    private Point location;
+
     public Character(Point location, BufferedImage[] walkUp, BufferedImage[] walkDown,
-                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type, BufferedImage fullbody) {
-        super(location);
+                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type, BufferedImage fullbody, BufferedImage image) {
+        super(location, image);
         this.walkUp = walkUp;
         this.walkDown = walkDown;
         this.walkLeft = walkLeft;
