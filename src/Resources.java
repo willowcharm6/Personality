@@ -16,7 +16,7 @@ public class Resources {
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
             aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl,
-            cave, auctionHouse2, lair;
+            cave, auctionHouse2, lair, lair2;
 
 
 
@@ -30,6 +30,7 @@ public class Resources {
             auctionHouse2 = ImageIO.read(new File("./res/AuctionHouse2.png"));
             cave = ImageIO.read(new File("./res/cave.png"));
             lair = ImageIO.read(new File("./res/lair.png"));
+            lair2 = ImageIO.read(new File("./res/lair2.png"));
 
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
 

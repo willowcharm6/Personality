@@ -8,10 +8,12 @@ public abstract class Sprite {
     private String currentDirection = "DOWN";
     private boolean moving = false;
     private Point location;
+    private int health;
 
     public Sprite(Point location) {
         this.location = location;
         setImages();
+        health = 90;
     }
 
     protected abstract void setImages();

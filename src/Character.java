@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Character extends Sprite {
     private String type = "";
+    private Point location;
+
     public Character(Point location, BufferedImage[] walkUp, BufferedImage[] walkDown,
                      BufferedImage[] walkLeft, BufferedImage[] walkRight, String type) {
         super(location);
@@ -17,6 +19,8 @@ public class Character extends Sprite {
     @Override
     protected void setImages() {
     }
+
+
 
     public void followPlayer(Sprite player, int targetDistance) {
         Point playerPosition = player.getLocation();

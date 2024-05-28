@@ -14,16 +14,21 @@ import java.awt.event.MouseMotionListener;
 
 public class Main extends JPanel {
     private boolean[] keys;
+    private int frameCount;
     private boolean started;
+    private int mouseX;
+    private int mouseY;
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Bear> bears;
     private ArrayList<Character> characters;
+    private ArrayList<Projectile> projectile;
+    private ArrayList<Point> projPoint;
+
     private Integer enemyCount = 5;
     private Integer money = 0;
     private static Font dayDream;
-    private int mouseX;
-    private int mouseY;
+
 
     public Main(int width, int height) {
         super();
@@ -33,6 +38,10 @@ public class Main extends JPanel {
         enemies = new ArrayList<>();
         bears = new ArrayList<>();
         characters = new ArrayList<>();
+        projectile = new ArrayList<>();
+        projPoint = new ArrayList<>();
+        frameCount = 0;
+
 
         setSize(width, height);
         keys = new boolean[256];
@@ -46,7 +55,7 @@ public class Main extends JPanel {
             bears.add(new Bear(new Point(800-70, 100)));
         }
         //characters
-        characters.add(new Character(new Point(100, 100),
+        characters.add(new Character(new Point(400, 300),
                 new BufferedImage[]{Resources.aminaBack, Resources.aminaBWalk1, Resources.aminaBack, Resources.aminaBWalk1},
                 new BufferedImage[]{Resources.aminaFront, Resources.aminaFWalk1, Resources.aminaIdle, Resources.aminaFWalk1},
                 new BufferedImage[]{Resources.aminaLeft, Resources.aminaLWalk, Resources.aminaLeft, Resources.aminaLWalk},
@@ -96,8 +105,8 @@ public class Main extends JPanel {
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
+                mouseX = e.getX();
+                mouseY = e.getY();
             }
 
             @Override
@@ -114,6 +123,8 @@ public class Main extends JPanel {
 
     }
     public void update() {
+        frameCount++;
+
         if (!started && keys[KeyEvent.VK_SPACE]) {
             started = true;
         }
@@ -153,10 +164,26 @@ public class Main extends JPanel {
 
             for (Character chars : characters) {
                 chars.followPlayer(player, 80);
+                if (frameCount > 15) {
+                    projectile.add(new Projectile(chars.getLocation(), 1, Resources.aminaSwirl, new Point(mouseX, mouseY)));
+                    frameCount = 0;
+                }
+
             }
 
+//            System.out.println(mouseX + ", " + mouseY);
+
+
+            if (projPoint.size()>0) {
+                for (Projectile proj : projectile) {
+                    proj.followMouse(6);
+                }
+            }
+
+
+
             if (keys[KeyEvent.VK_SPACE]) {  //jump?
-                player.shoot();
+                projPoint.add(new Point(mouseX, mouseY));
 
 //            player.jump();
                 keys[KeyEvent.VK_SPACE] = false;  // no holding jump, ruins double jump
@@ -194,9 +221,12 @@ public class Main extends JPanel {
             for (Character chars : characters){
                 chars.draw(g2);
             }
+            for (Projectile proj : projectile){
+                proj.draw2(g2, Resources.aminaSwirl);
+            }
 
             g2.drawImage(Resources.auctionHouse2, 250, 100, null);
-
+            g2.drawImage(Resources.lair2, 0, -25, 200, 200, null);
 
         }
 
@@ -229,6 +259,10 @@ public class Main extends JPanel {
 
         int width = 800;
         int height = 800;
+        int VIEWPORT_WIDTH = 400;
+        int VIEWPORT_HEIGHT = 400;
+        int characterX = 400;
+        int characterY = 400;
         window.setBounds(0, 0, width, height + 22); //(x, y, w, h) 22 due to title bar.
 
         JPanel panel = new Main(width, height);
@@ -237,7 +271,7 @@ public class Main extends JPanel {
 
         window.add(panel);
         window.setVisible(true);
-        window.setResizable(true);
+        window.setResizable(false);
     }
 
 }
