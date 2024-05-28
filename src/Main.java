@@ -130,24 +130,22 @@ public class Main extends JPanel {
         }
 
         if (started) {
-            //moving keys (AWSD and arrow)
-            {
-                int dx = 0;
-                int dy = 0;
-                if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]) {
-                    dx = -2;
-                }
-                if (keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]) {
-                    dy = 2;
-                }
-                if (keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]) {
-                    dx = 2;
-                }
-                if (keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]) {
-                    dy = -2;
-                }
-                player.move(dx, dy);
+            // Moving keys (AWSD and arrow)
+            int dx = 0;
+            int dy = 0;
+            if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]) {
+                dx = -2;
             }
+            if (keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]) {
+                dy = 2;
+            }
+            if (keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]) {
+                dx = 2;
+            }
+            if (keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]) {
+                dy = -2;
+            }
+            player.move(dx, dy);
 
             for (Enemy enemy : enemies) {
                 enemy.update();
@@ -168,38 +166,46 @@ public class Main extends JPanel {
                     projectile.add(new Projectile(chars.getLocation(), 1, Resources.aminaSwirl, new Point(mouseX, mouseY)));
                     frameCount = 0;
                 }
-
             }
 
-//            System.out.println(mouseX + ", " + mouseY);
-
-
-            if (projPoint.size()>0) {
+            if (projPoint.size() > 0) {
                 for (Projectile proj : projectile) {
                     proj.followMouse(6);
                 }
             }
 
+            // Remove projectiles if they hit a bear, enemy, or are out of frame
+            for (int i = projectile.size() - 1; i >= 0; i--) {
+                Projectile proj = projectile.get(i);
+                boolean removed = false;
 
-            // Help this doesn't work :(
-            // delete projectile if hits bear, enemy, or is out of frame
-            for (int i = 0; i < projectile.size(); i++) {
-
+                // Check intersection with bears
                 for (int j = 0; j < bears.size(); j++) {
-                    if (projectile.get(i).intersects(bears.get(j)) && projectile.size()>0 && bears.size()>0) {
+                    if (proj.intersects(bears.get(j))) {
+                        bears.get(j).loseHealth(30);
                         projectile.remove(i);
-                        bears.get(i).loseHealth(30);
-                    }
-                }
-                for (int j = 0; j < enemies.size(); j++) {
-                    if (projectile.get(i).intersects(enemies.get(j)) && projectile.size()>0 && enemies.size()>0) {
-                        projectile.remove(i);
-                        enemies.get(i).loseHealth(30);
+                        removed = true;
+                        break;
                     }
                 }
 
-                if (projectile.get(i).getX() > 800 || projectile.get(i).getX() < 0 || projectile.get(i).getY() > 800 || projectile.get(i).getY() < 0){
-                    projectile.remove(i);
+                // Check intersection with enemies if not already removed
+                if (!removed) {
+                    for (int j = 0; j < enemies.size(); j++) {
+                        if (proj.intersects(enemies.get(j))) {
+                            enemies.get(j).loseHealth(30);
+                            projectile.remove(i);
+                            removed = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Check if the projectile is out of frame if not already removed
+                if (!removed) {
+                    if (proj.getX() > 800 || proj.getX() < 0 || proj.getY() > 800 || proj.getY() < 0) {
+                        projectile.remove(i);
+                    }
                 }
             }
 
@@ -218,20 +224,15 @@ public class Main extends JPanel {
                 }
             }
 
-
-
-
-            if (keys[KeyEvent.VK_SPACE]) {  //jump?
+            if (keys[KeyEvent.VK_SPACE]) {
                 projPoint.add(new Point(mouseX, mouseY));
-
-//            player.jump();
-                keys[KeyEvent.VK_SPACE] = false;  // no holding jump, ruins double jump
+                keys[KeyEvent.VK_SPACE] = false;
             }
-
         }
 
-        repaint();  //update graphics
+        repaint(); // Update graphics
     }
+
     @Override
     // All drawing originates from this method
     protected void paintComponent(Graphics g) {
