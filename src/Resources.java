@@ -8,17 +8,23 @@ public class Resources {
     // 2. Declare a variable before the static block.
     // 3. Initialize the variable by copying and pasting and modifying the
     //    ImageIO line.
+    public BufferedImage getFromString(String in) {
+        switch (in) {
+            case "playerFront":
+                return playerFront;
+        }
 
+        return null;
+    }
 
     public static BufferedImage playerFront, titleCard, playerBStill, playerBWalk1, playerBWalk2,
             playerFWalk1, playerFWalk2, playerLeft, playerLWalk, playerRight, playerRWalk, enemyBack,
             enemyBWalk1, enemyBWalk2, enemyFront, enemyFWalk1, enemyFWalk2, enemyLeft, enemyLWalk,
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
-            aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl,
-            cave, auctionHouse2, lair;
-
-
+            aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl, amina,
+            cave, auctionHouse2, lair, inAuctionHouse, caspianBack, caspianBWalk1, caspianBWalk2, caspianFront, caspianFWalk1, caspianFWalk2, caspianLeft, caspianLWalk,
+    caspianRight, caspianRWalk, caspianIdle, caspianRain, caspianWave1, caspian;
 
 
     static{
@@ -32,6 +38,7 @@ public class Resources {
             lair = ImageIO.read(new File("./res/lair.png"));
 
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
+            inAuctionHouse = ImageIO.read(new File("./res/pause_box.png"));
 
             // player images
             {
@@ -83,6 +90,24 @@ public class Resources {
                 aminaIdle = ImageIO.read(new File("./res/Amina/Amina_sprite_idle.png"));
                 aminaPlants = ImageIO.read(new File("./res/Attacks/Amina_Plants.png"));
                 aminaSwirl = ImageIO.read(new File("./res/Attacks/Amina_Swirl.png"));
+                amina = ImageIO.read(new File("./res/Amina/Amina.png"));
+            }
+            //Caspian images
+            {
+                caspianBack = ImageIO.read(new File("./res/Caspian/Caspian_sprite_back.png"));
+                caspianBWalk1 = ImageIO.read(new File("./res/Caspian/Caspian_sprite_back_walk1.png"));
+                caspianBWalk2 = ImageIO.read(new File("./res/Caspian/Caspian_sprite_back_walk2.png"));
+                caspianFront = ImageIO.read(new File("./res/Caspian/Caspian_sprite_front.png"));
+                caspianFWalk1 = ImageIO.read(new File("./res/Caspian/Caspian_sprite_front_walk1.png"));
+                caspianFWalk2 = ImageIO.read(new File("./res/Caspian/Caspian_sprite_front_walk2.png"));
+                caspianLeft = ImageIO.read(new File("./res/Caspian/Caspian_sprite_left.png"));
+                caspianLWalk = ImageIO.read(new File("./res/Caspian/Caspian_sprite_left_walk.png"));
+                caspianRight = ImageIO.read(new File("./res/Caspian/Caspian_sprite_right.png"));
+                caspianRWalk = ImageIO.read(new File("./res/Caspian/Caspian_sprite_right_walk.png"));
+                caspianIdle = ImageIO.read(new File("./res/Caspian/Caspian_sprite_idle.png"));
+                caspianRain = ImageIO.read(new File("./res/Attacks/Caspian_Rain.png"));
+                caspianWave1 = ImageIO.read(new File("./res/Attacks/Caspian_Wave1.png"));
+                caspian = ImageIO.read(new File("./res/Caspian/Caspian.png"));
             }
 
 

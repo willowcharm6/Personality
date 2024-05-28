@@ -14,13 +14,13 @@ import java.awt.event.MouseMotionListener;
 
 public class Main extends JPanel {
     private boolean[] keys;
-    private boolean started;
+    private boolean isstarted, inAuctionHouse;
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Bear> bears;
     private ArrayList<Character> characters;
     private Integer enemyCount = 5;
-    private Integer money = 0;
+    private Integer money = 0, charIndex = 0;
     private static Font dayDream;
     private int mouseX;
     private int mouseY;
@@ -29,10 +29,11 @@ public class Main extends JPanel {
         super();
 
         player = new Player(new Point(400, 700));
-        started = false;
+        isstarted = false;
         enemies = new ArrayList<>();
         bears = new ArrayList<>();
         characters = new ArrayList<>();
+        inAuctionHouse = false;
 
         setSize(width, height);
         keys = new boolean[256];
@@ -50,7 +51,13 @@ public class Main extends JPanel {
                 new BufferedImage[]{Resources.aminaBack, Resources.aminaBWalk1, Resources.aminaBack, Resources.aminaBWalk1},
                 new BufferedImage[]{Resources.aminaFront, Resources.aminaFWalk1, Resources.aminaIdle, Resources.aminaFWalk1},
                 new BufferedImage[]{Resources.aminaLeft, Resources.aminaLWalk, Resources.aminaLeft, Resources.aminaLWalk},
-                new BufferedImage[]{Resources.aminaRight, Resources.aminaRWalk, Resources.aminaRight, Resources.aminaRWalk}, "amina"
+                new BufferedImage[]{Resources.aminaRight, Resources.aminaRWalk, Resources.aminaRight, Resources.aminaRWalk}, "amina", Resources.amina
+        ));
+        characters.add(new Character(new Point(700, 100),
+                new BufferedImage[]{Resources.caspianBack, Resources.caspianBWalk1, Resources.caspianBack, Resources.caspianBWalk2},
+                new BufferedImage[]{Resources.caspianFront, Resources.caspianFWalk1, Resources.caspianIdle, Resources.caspianFWalk2},
+                new BufferedImage[]{Resources.caspianLeft, Resources.caspianLWalk, Resources.caspianLeft, Resources.caspianLWalk},
+                new BufferedImage[]{Resources.caspianRight, Resources.caspianRWalk, Resources.caspianRight, Resources.caspianRWalk}, "caspian", Resources.caspian
         ));
 
         addKeyListener(new KeyAdapter() {
@@ -67,9 +74,9 @@ public class Main extends JPanel {
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-//                    int x = e.getX();
-//                    int y = e.getY();
-//                    System.out.println(x + ", " + y);
+                    mouseX = e.getX();
+                    mouseY = e.getY();
+                    System.out.println(mouseX + ", " + mouseY);
                 }
 
                 @Override
@@ -114,28 +121,46 @@ public class Main extends JPanel {
 
     }
     public void update() {
-        if (!started && keys[KeyEvent.VK_SPACE]) {
-            started = true;
+        if (!isstarted && keys[KeyEvent.VK_SPACE]) {
+            isstarted = true;
         }
+        if (isstarted && (player.getX() < (200 + 250) && player.getX() > 310) && (player.getY() < (150 + 100) && player.getY() > 160)){
+            inAuctionHouse = true;
+        }
+        else inAuctionHouse = false;
 
-        if (started) {
+        if (isstarted) {
             //moving keys (AWSD and arrow)
             {
                 int dx = 0;
                 int dy = 0;
-                if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]) {
+                if (keys[KeyEvent.VK_A]) {
                     dx = -2;
                 }
-                if (keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]) {
+                if (keys[KeyEvent.VK_S]) {
                     dy = 2;
                 }
-                if (keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]) {
+                if (keys[KeyEvent.VK_D]) {
                     dx = 2;
                 }
-                if (keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]) {
+                if (keys[KeyEvent.VK_W]) {
                     dy = -2;
                 }
                 player.move(dx, dy);
+            }
+            if (inAuctionHouse){
+                if (keys[KeyEvent.VK_RIGHT] && charIndex < characters.size() - 1){
+                    charIndex += 1;
+                }
+                if (keys[KeyEvent.VK_LEFT] && charIndex > 0){
+                    charIndex -= 1;
+                }
+                if (keys[KeyEvent.VK_RIGHT] && charIndex == characters.size() - 1){
+                    charIndex = 0;
+                }
+                if (keys[KeyEvent.VK_LEFT] && charIndex == 0){
+                    charIndex = characters.size() - 1;
+                }
             }
 
             for (Enemy enemy : enemies) {
@@ -174,7 +199,7 @@ public class Main extends JPanel {
         Font sizedFont = dayDream.deriveFont(24f);
         g2.setFont(sizedFont);
 
-        if (started) {
+        if (isstarted) {
             //background
             g2.setColor(new Color(0xbdd980));
             g2.fillRect(0, 0, 800, 800);
@@ -199,8 +224,12 @@ public class Main extends JPanel {
 
 
         }
+        if (isstarted && inAuctionHouse){
+            g2.drawImage(Resources.inAuctionHouse, 0, 0, 800, 800, null);
+            g2.drawImage(characters.get(charIndex).getFullbody(), 400-(270/2), 400-(444/2), 800, 800, null);
+        }
 
-        if (!started) {
+        if (!isstarted) {
             int stretchedWidth = 800;
             int stretchedHeight = 800;
             g2.drawImage(Resources.titleCard, 0, 0, stretchedWidth, stretchedHeight, null);

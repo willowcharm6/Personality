@@ -4,18 +4,28 @@ import java.util.ArrayList;
 
 public class Character extends Sprite {
     private String type = "";
+    private BufferedImage fullbody;
     public Character(Point location, BufferedImage[] walkUp, BufferedImage[] walkDown,
-                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type) {
+                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type, BufferedImage fullbody) {
         super(location);
         this.walkUp = walkUp;
         this.walkDown = walkDown;
         this.walkLeft = walkLeft;
         this.walkRight = walkRight;
         this.type = type;
+        this.fullbody = fullbody;
     }
 
     @Override
     protected void setImages() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public BufferedImage getFullbody() {
+        return fullbody;
     }
 
     public void followPlayer(Sprite player, int targetDistance) {
