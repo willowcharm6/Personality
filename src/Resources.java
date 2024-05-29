@@ -16,8 +16,11 @@ public class Resources {
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
             bearRight, bearRWalk, aminaBack, aminaBWalk1, aminaFront, aminaFWalk1, aminaLeft, aminaLWalk,
             aminaRight, aminaRWalk, aminaIdle, auctionHouse, aminaPlants, aminaSwirl, amina,
-            cave, auctionHouse2, lair, inAuctionHouse, caspianBack, caspianBWalk1, caspianBWalk2, caspianFront, caspianFWalk1, caspianFWalk2, caspianLeft, caspianLWalk,
-    caspianRight, caspianRWalk, caspianIdle, caspianRain, caspianWave1, caspian, lair2;
+            cave, auctionHouse2, lair, inAuctionHouse, caspianBack, caspianBWalk1, caspianBWalk2, caspianFront,
+            caspianFWalk1, caspianFWalk2, caspianLeft, caspianLWalk, caspianRight, caspianRWalk, caspianIdle,
+            caspianRain, caspianWave1, caspian, lair2, melonieBack, melonieBWalk1, melonieBWalk2, melonieFront,
+            melonieFWalk1, melonieFWalk2, melonieLeft, melonieLWalk, melonieRight, melonieRWalk, melonieIdle,
+            melonieMelonSeed, melonieMelon, melonie;
 
 
 
@@ -104,6 +107,23 @@ public class Resources {
                 caspianRain = ImageIO.read(new File("./res/Attacks/Caspian_Rain.png"));
                 caspianWave1 = ImageIO.read(new File("./res/Attacks/Caspian_Wave1.png"));
                 caspian = ImageIO.read(new File("./res/Caspian/Caspian.png"));
+            }
+            //Melonie images
+            {
+                melonieBack = ImageIO.read(new File("./res/Melonie/Melonie_sprite_back.png"));
+                melonieBWalk1 = ImageIO.read(new File("./res/Melonie/Melonie_sprite_back_walk1.png"));
+                melonieBWalk2 = ImageIO.read(new File("./res/Melonie/Melonie_sprite_back_walk2.png"));
+                melonieFront = ImageIO.read(new File("./res/Melonie/Melonie_sprite_front.png"));
+                melonieFWalk1 = ImageIO.read(new File("./res/Melonie/Melonie_sprite_front_walk1.png"));
+                melonieFWalk2 = ImageIO.read(new File("./res/Melonie/Melonie_sprite_front_walk2.png"));
+                melonieLeft = ImageIO.read(new File("./res/Melonie/Melonie_sprite_left.png"));
+                melonieLWalk = ImageIO.read(new File("./res/Melonie/Melonie_sprite_left_walk.png"));
+                melonieRight = ImageIO.read(new File("./res/Melonie/Melonie_sprite_right.png"));
+                melonieRWalk = ImageIO.read(new File("./res/Melonie/Melonie_sprite_right_walk.png"));
+                melonieIdle = ImageIO.read(new File("./res/Melonie/Melonie_sprite_idle.png"));
+                melonieMelon = ImageIO.read(new File("./res/Attacks/Melonie_WatermelonHelmet.png"));
+                melonieMelonSeed = ImageIO.read(new File("./res/Attacks/Melonie_WatermelonSeed.png"));
+                melonie = ImageIO.read(new File("./res/Melonie/Melonie.png"));
             }
 
 
