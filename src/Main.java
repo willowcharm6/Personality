@@ -232,8 +232,9 @@ public class Main extends JPanel {
 
             // enemies do 5 damage, but they see you from further away
             for (Enemy enemy: enemies) {
-                enemy.followPlayer(player);
-                if (enemy.intersects(player) && frameCountDamage > 15){
+                if(!inAuctionHouse)
+                    enemy.followPlayer(player);
+                if (enemy.intersects(player) && frameCountDamage > 15 && !inAuctionHouse){
                     player.loseHealth(5);
                     frameCountDamage = 0;
                 }
@@ -241,8 +242,9 @@ public class Main extends JPanel {
 
             // bears do 15 damage, but you have to get close for them to notice you
             for (Bear bear: bears){
-                bear.followPlayer(player);
-                if (bear.intersects(player) && frameCountDamage > 15){
+                if(!inAuctionHouse)
+                    bear.followPlayer(player);
+                if (bear.intersects(player) && frameCountDamage > 15 && !inAuctionHouse){
                     player.loseHealth(15);
                     frameCountDamage = 0;
                 }
@@ -346,8 +348,6 @@ public class Main extends JPanel {
 
          g2.setColor(green);
          g2.setFont(sizedFont);
-         g2.drawString("Coins: " + player.getCoins(), 580, 770);
-
 
             player.draw(g2);
             for (Enemy enemy : enemies) {
@@ -447,7 +447,11 @@ public class Main extends JPanel {
         g2.setFont(sizedFont);
         g2.drawString("Coins: " + player.getCoins(), 580, 775);
         g2.setColor(new Color(0x630f1a));
-        g2.drawString("Health: " + player.getHealth(), 550, 725);
+        if(!inAuctionHouse)
+            g2.drawString("Health: " + player.getHealth(), 550, 725);
+        else
+            g2.drawString("Health: " + player.getHealth(), 30, 775);
+
 
         if (!isstarted) {
             int stretchedWidth = 800;
@@ -460,6 +464,7 @@ public class Main extends JPanel {
         if (isstarted && lost) {
             g2.drawImage(Resources.loseScreen, 0, 0, null);
         }
+
 
     }
 
