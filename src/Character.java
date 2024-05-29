@@ -5,11 +5,12 @@ import java.util.ArrayList;
 public class Character extends Sprite {
     private String type = "";
     private BufferedImage fullbody;
-    private BufferedImage image;
+    private BufferedImage image, attack;
     private Point location;
 
     public Character(Point location, BufferedImage[] walkUp, BufferedImage[] walkDown,
-                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type, BufferedImage fullbody, BufferedImage image) {
+                     BufferedImage[] walkLeft, BufferedImage[] walkRight, String type,
+                     BufferedImage fullbody, BufferedImage image, BufferedImage attack) {
         super(location, image);
         this.walkUp = walkUp;
         this.walkDown = walkDown;
@@ -17,6 +18,7 @@ public class Character extends Sprite {
         this.walkRight = walkRight;
         this.type = type;
         this.fullbody = fullbody;
+        this.attack = attack;
     }
 
     @Override
@@ -25,6 +27,10 @@ public class Character extends Sprite {
 
     public String getType() {
         return type;
+    }
+
+    public BufferedImage getAttack() {
+        return attack;
     }
 
     public BufferedImage getFullbody() {
