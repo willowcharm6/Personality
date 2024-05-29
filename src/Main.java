@@ -364,6 +364,14 @@ public class Main extends JPanel {
             g2.drawImage(Resources.auctionHouse2, 250, 100, null);
             g2.drawImage(Resources.lair2, 0, -25, 200, 200, null);
 
+            // only see a portion, viewport
+            g2.setColor(green);
+            if (isstarted && !inAuctionHouse) {
+                Area a = new Area(new Rectangle(0, 0, 800, 800));
+                a.subtract(new Area(new Rectangle(player.getX() - 200, player.getY() - 200, 400, 400)));
+                g2.fill(a);
+            }
+
         }
         if (isstarted && inAuctionHouse && !lost) {
             int x = 60;
@@ -443,7 +451,7 @@ public class Main extends JPanel {
             }
         }
 
-        g2.setColor(new Color(0x3c7c54));
+        g2.setColor(new Color(0xc48116));
         g2.setFont(sizedFont);
         g2.drawString("Coins: " + player.getCoins(), 580, 775);
         g2.setColor(new Color(0x630f1a));
