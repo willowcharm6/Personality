@@ -1,3 +1,5 @@
+import org.w3c.dom.css.Rect;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Area;
 
 
 public class Main extends JPanel {
@@ -350,6 +353,7 @@ public class Main extends JPanel {
         if (isstarted && lost) {
             g2.drawImage(Resources.loseScreen, 0, 0, null);
         }
+
     }
 
 
