@@ -10,7 +10,7 @@ public class Resources {
     //    ImageIO line.
 
 
-    public static BufferedImage playerFront, titleCard, playerBStill, playerBWalk1, playerBWalk2,
+    public static BufferedImage playerFront, titleCard, loseScreen, playerBStill, playerBWalk1, playerBWalk2,
             playerFWalk1, playerFWalk2, playerLeft, playerLWalk, playerRight, playerRWalk, enemyBack,
             enemyBWalk1, enemyBWalk2, enemyFront, enemyFWalk1, enemyFWalk2, enemyLeft, enemyLWalk,
             enemyRight, enemyRWalk, bearBack, bearBWalk1, bearFront, bearFWalk1, bearLeft, bearLWalk,
@@ -37,6 +37,7 @@ public class Resources {
             lair2 = ImageIO.read(new File("./res/lair2.png"));
 
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
+            loseScreen = ImageIO.read(new File("./res/lose.png"));
             inAuctionHouse = ImageIO.read(new File("./res/pause_box.png"));
 
             // player images
