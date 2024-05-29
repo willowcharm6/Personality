@@ -151,8 +151,6 @@ public class Main extends JPanel {
         Timer timer = new Timer(1000/60, e -> update());
         timer.start();
 
-
-
     }
     public void update() {
         if(isstarted) {
