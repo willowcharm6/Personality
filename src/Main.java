@@ -83,6 +83,13 @@ public class Main extends JPanel {
                 new BufferedImage[]{Resources.melonieRight, Resources.melonieRWalk, Resources.melonieRight, Resources.melonieRWalk},
                 "melonie", Resources.melonie, Resources.melonieIdle, Resources.melonieMelon
         ));
+        shopChars.add(new Character(new Point(200, 400),
+                new BufferedImage[]{Resources.violaBack, Resources.violaBWalk1, Resources.violaBack, Resources.violaBWalk2},
+                new BufferedImage[]{Resources.violaFront, Resources.violaFWalk1, Resources.violaIdle, Resources.violaFWalk2},
+                new BufferedImage[]{Resources.violaLeft, Resources.violaLWalk, Resources.violaLeft, Resources.violaLWalk},
+                new BufferedImage[]{Resources.violaRight, Resources.violaRWalk, Resources.violaRight, Resources.violaRWalk},
+                "viola", Resources.viola, Resources.violaIdle, Resources.violaGuitar
+        ));
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
@@ -103,16 +110,26 @@ public class Main extends JPanel {
                         player.setLocation(new Point(400, 300));
                     }
                     //check if inventory button clicked
-                    if(e.getX() < 60 + 110 && e.getX() > 60 && e.getY() > 90 && e.getY() < 90 + 40 && inAuctionHouse){
+                    // g2.fillRect(55, 65, 240, 40);
+                    if(e.getX() < 55 + 240 && e.getX() > 55 && e.getY() > 65 && e.getY() < 65 + 40 && inAuctionHouse){
                         inShop = false;
                         inInventory = true;
-                        System.out.println(inInventory);
                     }
                     //check if shop button clicked
-                    if(e.getX() < 630 + 110 && e.getX() > 630 && e.getY() > 90 && e.getY() < 90 + 40 && inAuctionHouse){
+                    // g2.fillRect(625, 65, 115, 40);
+                    if(e.getX() < 625 + 115 && e.getX() > 625 && e.getY() > 65 && e.getY() < 65 + 40 && inAuctionHouse){
                         inInventory = false;
                         inShop = true;
-                        System.out.println("inShop");
+                    }
+                    if (inAuctionHouse && inShop){
+                        // g2.fillRect(95, 650, 90, 40);
+                        if (e.getX() < 95 + 90 && e.getX() > 95 && e.getY() > 650 && e.getY() < 650 + 40 && player.getCoins() >= 50){
+                            characters.add(shopChars.get(shopCharsIndex));
+                            shopChars.remove(shopCharsIndex);
+                            System.out.println(shopChars);
+                            System.out.println(shopCharsIndex);
+                            player.changeCoins(-50);
+                        }
                     }
                 }
 
@@ -201,9 +218,11 @@ public class Main extends JPanel {
                 if (inShop){
                     if (keys[KeyEvent.VK_RIGHT] && shopCharsIndex < shopChars.size() - 1) {
                         shopCharsIndex += 1;
+                        System.out.println(shopCharsIndex);
                     }
                     if (keys[KeyEvent.VK_LEFT] && shopCharsIndex > 0) {
                         shopCharsIndex -= 1;
+                        System.out.println(shopCharsIndex);
                     }
                 }
             }
@@ -334,7 +353,8 @@ public class Main extends JPanel {
         Color green = new Color(0x3c7c54);
         Color blue = new Color(38, 49, 79);
         Color beige = new Color(232, 219, 189);
-
+        Color red = new Color(150, 56, 42);
+        Color pink = new Color(177, 94, 116);
 
         if (isstarted) {
             //background
@@ -379,14 +399,15 @@ public class Main extends JPanel {
             g2.setColor(brown);
             g2.drawString("Inventory", x, 90);
             g2.drawString("Shop", 630, 90);
+
             if (inInventory) {
                 g2.drawImage(characters.get(charIndex).getFullbody(), 400 - 270 / 2, 400 - 444 / 2, null);
                 g2.setFont(smallerFont);
                 g2.drawString("Use < > to select character", x, 700);
-                if (characters.get(charIndex).getType() == "amina") {
+                if (characters.get(charIndex).getType().equals("amina")) {
                     g2.setColor(green);
                     g2.setFont(biggerFont);
-                    g2.drawString("Amina", x, 130);
+                    g2.drawString("Amina", x, 150);
                     g2.setFont(smallerFont);
                     g2.drawString("My skill is sprouting", 400, 125);
                     g2.drawString("plants to defend myself.", 400, 155);
@@ -401,10 +422,10 @@ public class Main extends JPanel {
                     g2.drawImage(Resources.aminaPlants, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
 
                 }
-                if (characters.get(charIndex).getType() == "caspian") {
+                if (characters.get(charIndex).getType().equals("caspian")) {
                     g2.setColor(blue);
                     g2.setFont(biggerFont);
-                    g2.drawString("Caspian", x, 130);
+                    g2.drawString("Caspian", x, 150);
                     g2.setFont(smallerFont);
                     g2.drawString("Riding those waves,", 470, 125);
                     g2.drawString("I bring the fight", 470, 155);
@@ -419,13 +440,53 @@ public class Main extends JPanel {
                     g2.drawImage(Resources.caspianRain, 600, 250, 16 * 5, 16 * 5, null);
                     g2.drawImage(Resources.caspianWave1, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
+                if (shopChars.get(shopCharsIndex).getType().equals("melonie")) {
+                    g2.setColor(pink);
+                    g2.setFont(biggerFont);
+                    g2.drawString("Melonie", x, 150);
+                    g2.setFont(smallerFont);
+                    g2.drawString("I have a unique skill", 480, 125);
+                    g2.drawString("- shooting watermelon ", 480, 155);
+                    g2.drawString("seeds with precision!", 480, 185);
+                    g2.drawString("Attacks:", 600, 220);
+                    g2.setFont(smallestFont);
+                    g2.drawString("I grew up in a small town", x, 220);
+                    g2.drawString("surrounded by nature and", x, 240);
+                    g2.drawString("set the record for spitting", x, 260);
+                    g2.drawString("watermelon seeds the farthest", x, 280);
+                    g2.drawString("at our annual festival.", x, 300);
+                    g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                }
+                if (shopChars.get(shopCharsIndex).getType().equals("viola")) {
+                    g2.setColor(red);
+                    g2.setFont(biggerFont);
+                    g2.drawString("Viola", x, 150);
+                    g2.setFont(smallerFont);
+                    g2.drawString("I honed my skills", 480, 125);
+                    g2.drawString("to shoot fiery", 480, 155);
+                    g2.drawString("music notes!", 480, 185);
+                    g2.drawString("Attacks:", 600, 220);
+                    g2.setFont(smallestFont);
+                    g2.drawString("I'm a talented musician", x, 220);
+                    g2.drawString("and a daredevil who", x, 240);
+                    g2.drawString("loves skydiving,", x, 260);
+                    g2.drawString("bungee jumping,", x, 280);
+                    g2.drawString("and fire poi spinning.", x, 300);
+                    g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                }
             }
             if (inShop){
-                g2.drawImage(characters.get(shopCharsIndex).getFullbody(), 400 - 270 / 2, 400 - 444 / 2, null);
-                if (characters.get(charIndex).getType() == "caspian") {
+                g2.setColor(brown);
+                g2.fillRect(95, 650, 90, 40);
+                g2.setColor(beige);
+                g2.drawString("Buy", 100, 675);
+                g2.drawImage(shopChars.get(shopCharsIndex).getFullbody(), 400 - 270 / 2, 400 - 444 / 2, null);
+                if (shopChars.get(shopCharsIndex).getType().equals("caspian")) {
                     g2.setColor(blue);
                     g2.setFont(biggerFont);
-                    g2.drawString("Caspian", x, 130);
+                    g2.drawString("Caspian", x, 150);
                     g2.setFont(smallerFont);
                     g2.drawString("Riding those waves,", 470, 125);
                     g2.drawString("I bring the fight", 470, 155);
@@ -439,6 +500,42 @@ public class Main extends JPanel {
                     g2.drawString("manipulate waves.", x, 300);
                     g2.drawImage(Resources.caspianRain, 600, 250, 16 * 5, 16 * 5, null);
                     g2.drawImage(Resources.caspianWave1, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                }
+                if (shopChars.get(shopCharsIndex).getType().equals("melonie")) {
+                    g2.setColor(pink);
+                    g2.setFont(biggerFont);
+                    g2.drawString("Melonie", x, 150);
+                    g2.setFont(smallerFont);
+                    g2.drawString("I have a unique skill", 480, 125);
+                    g2.drawString("- shooting watermelon ", 480, 155);
+                    g2.drawString("seeds with precision!", 480, 185);
+                    g2.drawString("Attacks:", 600, 220);
+                    g2.setFont(smallestFont);
+                    g2.drawString("I grew up in a small town", x, 220);
+                    g2.drawString("surrounded by nature and", x, 240);
+                    g2.drawString("set the record for spitting", x, 260);
+                    g2.drawString("watermelon seeds the farthest", x, 280);
+                    g2.drawString("at our annual festival.", x, 300);
+                    g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                }
+                if (shopChars.get(shopCharsIndex).getType().equals("viola")) {
+                    g2.setColor(red);
+                    g2.setFont(biggerFont);
+                    g2.drawString("Viola", x, 150);
+                    g2.setFont(smallerFont);
+                    g2.drawString("I honed my skills", 480, 125);
+                    g2.drawString("to shoot fiery", 480, 155);
+                    g2.drawString("music notes!", 480, 185);
+                    g2.drawString("Attacks:", 600, 220);
+                    g2.setFont(smallestFont);
+                    g2.drawString("I'm a talented musician", x, 220);
+                    g2.drawString("and a daredevil who", x, 240);
+                    g2.drawString("loves skydiving,", x, 260);
+                    g2.drawString("bungee jumping,", x, 280);
+                    g2.drawString("and fire poi spinning.", x, 300);
+                    g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
             }
         }

@@ -20,7 +20,9 @@ public class Resources {
             caspianFWalk1, caspianFWalk2, caspianLeft, caspianLWalk, caspianRight, caspianRWalk, caspianIdle,
             caspianRain, caspianWave1, caspian, lair2, melonieBack, melonieBWalk1, melonieBWalk2, melonieFront,
             melonieFWalk1, melonieFWalk2, melonieLeft, melonieLWalk, melonieRight, melonieRWalk, melonieIdle,
-            melonieMelonSeed, melonieMelon, melonie;
+            melonieMelonSeed, melonieMelon, melonie, violaBack, violaBWalk1, violaBWalk2, violaFront,
+            violaFWalk1, violaFWalk2, violaLeft, violaLWalk, violaRight, violaRWalk, violaIdle,
+            violaGuitar, violaNote, viola;
 
 
 
@@ -125,6 +127,23 @@ public class Resources {
                 melonieMelon = ImageIO.read(new File("./res/Attacks/Melonie_WatermelonHelmet.png"));
                 melonieMelonSeed = ImageIO.read(new File("./res/Attacks/Melonie_WatermelonSeed.png"));
                 melonie = ImageIO.read(new File("./res/Melonie/Melonie.png"));
+            }
+            //Viola images
+            {
+                violaBack = ImageIO.read(new File("./res/Viola/Viola_sprite_back.png"));
+                violaBWalk1 = ImageIO.read(new File("./res/Viola/Viola_sprite_back_walk1.png"));
+                violaBWalk2 = ImageIO.read(new File("./res/Viola/Viola_sprite_back_walk2.png"));
+                violaFront = ImageIO.read(new File("./res/Viola/Viola_sprite_front.png"));
+                violaFWalk1 = ImageIO.read(new File("./res/Viola/Viola_sprite_front_walk1.png"));
+                violaFWalk2 = ImageIO.read(new File("./res/Viola/Viola_sprite_front_walk2.png"));
+                violaLeft = ImageIO.read(new File("./res/Viola/Viola_sprite_left.png"));
+                violaLWalk = ImageIO.read(new File("./res/Viola/Viola_sprite_left_walk.png"));
+                violaRight = ImageIO.read(new File("./res/Viola/Viola_sprite_right.png"));
+                violaRWalk = ImageIO.read(new File("./res/Viola/Viola_sprite_right_walk.png"));
+                violaIdle = ImageIO.read(new File("./res/Viola/Viola_sprite_idle.png"));
+                violaGuitar = ImageIO.read(new File("./res/Attacks/Viola_GuitarSmash.png"));
+                violaNote = ImageIO.read(new File("./res/Attacks/Viola_MusicNote1.png"));
+                viola = ImageIO.read(new File("./res/Viola/Viola.png"));
             }
 
 
