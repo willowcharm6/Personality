@@ -10,6 +10,7 @@ public class Player extends Sprite {
         super(location, image);
         isShooting = false;
         coins = 0;
+        loseHealth(-10);
     }
 
     public int getCoins(){

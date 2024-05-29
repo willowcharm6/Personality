@@ -15,9 +15,10 @@ import java.awt.event.MouseMotionListener;
 public class Main extends JPanel {
     private boolean[] keys;
     private int frameCount;
+    private int frameCountDamage;
     private int mouseX;
     private int mouseY;
-    private boolean isstarted, inAuctionHouse;
+    private boolean isstarted, inAuctionHouse, lost;
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Bear> bears;
@@ -40,7 +41,9 @@ public class Main extends JPanel {
         projectile = new ArrayList<>();
         projPoint = new ArrayList<>();
         frameCount = 0;
+        frameCountDamage = 0;
         inAuctionHouse = false;
+        lost = false;
 
         setSize(width, height);
         keys = new boolean[256];
@@ -127,8 +130,11 @@ public class Main extends JPanel {
 
     }
     public void update() {
-        if(isstarted)
+        if(isstarted) {
             frameCount++;
+            frameCountDamage++;
+        }
+
         
         if (!isstarted && keys[KeyEvent.VK_SPACE]) {
             isstarted = true;
@@ -193,11 +199,34 @@ public class Main extends JPanel {
                 }
             }
 
+            // enemies do 5 damage, but they see you from further away
+            for (Enemy enemy: enemies) {
+                enemy.followPlayer(player);
+                if (enemy.intersects(player) && frameCountDamage > 15){
+                    player.loseHealth(5);
+                    frameCountDamage = 0;
+                }
+            }
+
+            // bears do 15 damage, but you have to get close for them to notice you
+            for (Bear bear: bears){
+                bear.followPlayer(player);
+                if (bear.intersects(player) && frameCountDamage > 15){
+                    player.loseHealth(15);
+                    frameCountDamage = 0;
+                }
+            }
+
+            if (player.getHealth() < 1){
+                lost = true;
+            }
+
             if (projPoint.size() > 0) {
                 for (Projectile proj : projectile) {
                     proj.followMouse(6);
                 }
             }
+
 
             // Remove projectiles if they hit a bear, enemy, or are out of frame
             for (int i = projectile.size() - 1; i >= 0; i--) {
@@ -225,6 +254,7 @@ public class Main extends JPanel {
                         }
                     }
                 }
+
 
                 // Check if the projectile is out of frame if not already removed
                 if (!removed) {
@@ -276,9 +306,8 @@ public class Main extends JPanel {
 
          g2.drawImage(Resources.auctionHouse, 250, 100, null);
 
-         g2.setColor(new Color(0x3c7c54));
-         g2.setFont(sizedFont);
-         g2.drawString("Coins: " + player.getCoins(), 580, 775);
+
+
 
 
             player.draw(g2);
@@ -299,10 +328,16 @@ public class Main extends JPanel {
             g2.drawImage(Resources.lair2, 0, -25, 200, 200, null);
 
         }
-        if (isstarted && inAuctionHouse){
+        if (isstarted && inAuctionHouse && !lost){
             g2.drawImage(Resources.inAuctionHouse, 0, 0, 800, 800, null);
             g2.drawImage(characters.get(charIndex).getFullbody(), 400-(270/2), 400-(444/2), 800, 800, null);
         }
+
+        g2.setColor(new Color(0x3c7c54));
+        g2.setFont(sizedFont);
+        g2.drawString("Coins: " + player.getCoins(), 580, 775);
+        g2.setColor(new Color(0x630f1a));
+        g2.drawString("Health: " + player.getHealth(), 550, 725);
 
         if (!isstarted) {
             int stretchedWidth = 800;
@@ -310,6 +345,10 @@ public class Main extends JPanel {
             g2.drawImage(Resources.titleCard, 0, 0, stretchedWidth, stretchedHeight, null);
             g2.setColor(new Color(0x3c7c54));
             g2.drawString("PRESS SPACE TO START", 160, 550);
+        }
+
+        if (isstarted && lost) {
+            g2.drawImage(Resources.loseScreen, 0, 0, null);
         }
     }
 
