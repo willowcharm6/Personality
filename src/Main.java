@@ -637,13 +637,18 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Amina", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("My skill is sprouting", 400, 125);
-                    g2.drawString("plants to defend myself.", 400, 155);
+//                    g2.drawString("My skill is sprouting", 400, 125);
+//                    g2.drawString("plants to defend myself.", 400, 155);
+                    g2.drawString("Movement: slow", 485, 125);
+                    g2.drawString("Attack: 30", 485, 155);
+                    g2.drawString("Attack Speed: fast", 485, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("With the power of nature,", x, 220);
-                    g2.drawString("I create shields", x, 240);
-                    g2.drawString("and barriers,", x, 260);
+//                    g2.drawString("I create shields", x, 240);
+//                    g2.drawString("and barriers,", x, 260);
+                    g2.drawString("I create twirls", x, 240);
+                    g2.drawString("of vines,", x, 260);
                     g2.drawString("protecting myself and", x, 280);
                     g2.drawString("those I care about.", x, 300);
                     g2.drawImage(Resources.aminaSwirl, 600, 250, 16 * 5, 16 * 5, null);
@@ -655,16 +660,20 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Caspian", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("Riding those waves,", 470, 125);
-                    g2.drawString("I bring the fight", 470, 155);
-                    g2.drawString("right to my enemies!", 470, 185);
+//                    g2.drawString("Riding those waves,", 470, 125);
+//                    g2.drawString("I bring the fight", 470, 155);
+//                    g2.drawString("right to my enemies!", 470, 185);
+                    g2.drawString("Movement: fast", 470, 125);
+                    g2.drawString("Attack: 45", 470, 155);
+                    g2.drawString("Attack Speed: slow", 470, 185);
+
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I harnessed my", x, 220);
                     g2.drawString("connection with the ocean", x, 240);
                     g2.drawString("and discovered a skill", x, 260);
                     g2.drawString("to summon and", x, 280);
-                    g2.drawString("manipulate waves.", x, 300);
+                    g2.drawString("manipulate water in the air.", x, 300);
                     g2.drawImage(Resources.caspianRain, 600, 250, 16 * 5, 16 * 5, null);
                     g2.drawImage(Resources.caspianWave1, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
@@ -673,9 +682,12 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Melonie", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("I have a unique skill", 445, 125);
-                    g2.drawString("- shooting watermelon ", 445, 155);
-                    g2.drawString("seeds with precision!", 445, 185);
+//                    g2.drawString("I have a unique skill", 445, 125);
+//                    g2.drawString("- shooting watermelon ", 445, 155);
+//                    g2.drawString("seeds with precision!", 445, 185);
+                    g2.drawString("Movement: slow", 480, 125);
+                    g2.drawString("Attack: 15 / Healing: 5", 480, 155);
+                    g2.drawString("Attack Speed: fast", 480, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I grew up in a small town", x, 220);
@@ -692,18 +704,23 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Viola", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("I honed my skills", 480, 125);
-                    g2.drawString("to shoot fiery", 480, 155);
-                    g2.drawString("music notes!", 480, 185);
+//                    g2.drawString("I honed my skills", 480, 125);
+//                    g2.drawString("to shoot fiery", 480, 155);
+//                    g2.drawString("music notes!", 480, 185);
+                    g2.drawString("Movement: fast", 485, 125);
+                    g2.drawString("Attack: 15", 485, 155);
+                    g2.drawString("Attack Speed: fast", 485, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I'm a talented musician", x, 220);
-                    g2.drawString("and a daredevil who", x, 240);
-                    g2.drawString("loves skydiving,", x, 260);
-                    g2.drawString("bungee jumping,", x, 280);
-                    g2.drawString("and fire poi spinning.", x, 300);
+                    g2.drawString("and a daredevil whose", x, 240);
+//                    g2.drawString("loves skydiving,", x, 260);
+//                    g2.drawString("bungee jumping,", x, 280);
+//                    g2.drawString("and fire poi spinning.", x, 300);
+                    g2.drawString("music blasts away", x, 260);
+                    g2.drawString("anyone around", x, 280);
                     g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
-                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5+10, 16 * 5, 16 * 5, null);
                 }
             }
             if (inShop && !inInventory && !shopChars.isEmpty()){
@@ -719,16 +736,19 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Caspian", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("Riding those waves,", 470, 125);
-                    g2.drawString("I bring the fight", 470, 155);
-                    g2.drawString("right to my enemies!", 470, 185);
+//                    g2.drawString("Riding those waves,", 470, 125);
+//                    g2.drawString("I bring the fight", 470, 155);
+//                    g2.drawString("right to my enemies!", 470, 185);
+                    g2.drawString("Movement: fast", 485, 125);
+                    g2.drawString("Attack: 45", 485, 155);
+                    g2.drawString("Attack Speed: slow", 485, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I harnessed my", x, 220);
                     g2.drawString("connection with the ocean", x, 240);
                     g2.drawString("and discovered a skill", x, 260);
                     g2.drawString("to summon and", x, 280);
-                    g2.drawString("manipulate waves.", x, 300);
+                    g2.drawString("manipulate water in the air.", x, 300);
                     g2.drawImage(Resources.caspianRain, 600, 250, 16 * 5, 16 * 5, null);
                     g2.drawImage(Resources.caspianWave1, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
@@ -737,9 +757,12 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Melonie", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("I have a unique skill", 445, 125);
-                    g2.drawString("- shooting watermelon ", 445, 155);
-                    g2.drawString("seeds with precision!", 445, 185);
+//                    g2.drawString("I have a unique skill", 445, 125);
+//                    g2.drawString("- shooting watermelon ", 445, 155);
+//                    g2.drawString("seeds with precision!", 445, 185);
+                    g2.drawString("Movement: slow", 480, 125);
+                    g2.drawString("Attack: 15 / Healing: 5", 480, 155);
+                    g2.drawString("Attack Speed: fast", 480, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I grew up in a small town", x, 220);
@@ -756,18 +779,23 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Viola", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("I honed my skills", 480, 125);
-                    g2.drawString("to shoot fiery", 480, 155);
-                    g2.drawString("music notes!", 480, 185);
+//                    g2.drawString("I honed my skills", 480, 125);
+//                    g2.drawString("to shoot fiery", 480, 155);
+//                    g2.drawString("music notes!", 480, 185);
+                    g2.drawString("Movement: fast", 485, 125);
+                    g2.drawString("Attack: 15", 485, 155);
+                    g2.drawString("Attack Speed: fast", 485, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I'm a talented musician", x, 220);
-                    g2.drawString("and a daredevil who", x, 240);
-                    g2.drawString("loves skydiving,", x, 260);
-                    g2.drawString("bungee jumping,", x, 280);
-                    g2.drawString("and fire poi spinning.", x, 300);
+                    g2.drawString("and a daredevil whose", x, 240);
+//                    g2.drawString("loves skydiving,", x, 260);
+//                    g2.drawString("bungee jumping,", x, 280);
+//                    g2.drawString("and fire poi spinning.", x, 300);
+                    g2.drawString("music blasts away", x, 260);
+                    g2.drawString("anyone around", x, 280);
                     g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
-                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5+10, 16 * 5, 16 * 5, null);
                 }
             }
         }
@@ -794,8 +822,6 @@ public class Main extends JPanel {
         if (isstarted && lost) {
             g2.drawImage(Resources.loseScreen, 0, 0, null);
         }
-
-
     }
 
 

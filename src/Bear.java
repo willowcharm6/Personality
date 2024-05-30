@@ -9,7 +9,7 @@ public class Bear extends Enemy{
 
     public Bear(Point location, BufferedImage image) {
         super(location, image);
-        attackDistance = 100;
+        attackDistance = 150;
     }
 
     public void followPlayer(Sprite player) {
