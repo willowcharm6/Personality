@@ -45,7 +45,7 @@ public class Main extends JPanel {
     public Main(int width, int height) {
         super();
 
-        player = new Player(new Point(400, 400), Resources.playerBStill);
+        player = new Player(new Point(400, 700), Resources.playerBStill);
         isstarted = false;
         enemies = new ArrayList<>();
         bears = new ArrayList<>();
