@@ -22,6 +22,7 @@ import java.io.IOException;
 public class Main extends JPanel {
     private boolean[] keys;
     private boolean rightKeyPressed = false;
+    private boolean firstTime;
     private boolean leftKeyPressed = false;
     private int frameCount;
     private int frameCountDamage;
@@ -56,6 +57,7 @@ public class Main extends JPanel {
         frameCountDamage = 0;
         frameCountDoor = 0;
         inAuctionHouse = false;
+        firstTime = true;
         lost = false;
         prevInAuctionHouse = false;
 
@@ -199,39 +201,45 @@ public class Main extends JPanel {
                 frameCountDamage++;
             }
 
-            if (Resources.musicNormal != null && isstarted && !inAuctionHouse) {
-                if (!Resources.musicNormal.isRunning()) {
-                    Resources.musicNormal.setFramePosition(0); // Rewind to the beginning
-                    Resources.musicNormal.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
-                }
-                Resources.musicAuction.stop();
-            }
+        if (Resources.musicNormal != null && isstarted && !inAuctionHouse){
+            Resources.musicNormal.start();
+            Resources.musicNormal.loop(Clip.LOOP_CONTINUOUSLY);
+            Resources.musicAuction.stop();
+        }
 
+        if(inAuctionHouse) {
+            Resources.musicNormal.stop();
+            Resources.musicAuction.start();
+            Resources.musicAuction.loop(Clip.LOOP_CONTINUOUSLY);
+
+        }
+
+        if (!isstarted && keys[KeyEvent.VK_SPACE]) {
+            isstarted = true;
+        }
+        if (isstarted && (player.getX() < (200 + 250) &&
+                player.getX() > 310) && (player.getY() < (150 + 100) && player.getY() > 160)){
+            inAuctionHouse = true;
+        }
+        else inAuctionHouse = false;
+
+        if (inAuctionHouse != prevInAuctionHouse) {
             if (inAuctionHouse) {
-                if (!Resources.musicAuction.isRunning()) {
-                    Resources.musicAuction.setFramePosition(0); // Rewind to the beginning
-                    Resources.musicAuction.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
-                }
-                Resources.musicNormal.stop();
-            }
-
-            if (inAuctionHouse != prevInAuctionHouse) {
-                if (inAuctionHouse) {
-                    if (Resources.door != null) {
-                        Resources.door.stop(); // Stop the clip if it is already playing
-                        Resources.door.setFramePosition(0); // Rewind to the beginning
-                        Resources.door.start();
-                        frameCountDoor = 0;
-                    }
-                }
-                if (!inAuctionHouse) {
+                if (Resources.door != null) {
                     Resources.door.stop(); // Stop the clip if it is already playing
                     Resources.door.setFramePosition(0); // Rewind to the beginning
                     Resources.door.start();
                     frameCountDoor = 0;
                 }
-                prevInAuctionHouse = inAuctionHouse;
             }
+            if(!inAuctionHouse){
+                Resources.door.stop(); // Stop the clip if it is already playing
+                Resources.door.setFramePosition(0); // Rewind to the beginning
+                Resources.door.start();
+                frameCountDoor = 0;
+            }
+            prevInAuctionHouse = inAuctionHouse;
+        }
 
             if (frameCountDoor >= 100) {
                 if (Resources.door != null) {
@@ -347,6 +355,8 @@ public class Main extends JPanel {
             for (Bear bear: bears){
                 if(!inAuctionHouse)
                     bear.followPlayer(player);
+                if(bear.getHealth() < 90)
+                    bear.attackPlayer(player);
                 if (bear.intersects(player) && frameCountDamage > 15 && !inAuctionHouse){
                     player.loseHealth(15);
                     frameCountDamage = 0;
@@ -403,6 +413,10 @@ public class Main extends JPanel {
                     bears.remove(j);
                     j--;
                     player.changeCoins(5);
+
+                    Resources.coin.stop();
+                    Resources.coin.setFramePosition(0);
+                    Resources.coin.start();
                 }
             }
             for (int j = 0; j < enemies.size(); j++) {
@@ -410,6 +424,10 @@ public class Main extends JPanel {
                     enemies.remove(j);
                     j--;
                     player.changeCoins(5);
+
+                    Resources.coin.stop();
+                    Resources.coin.setFramePosition(0);
+                    Resources.coin.start();
                 }
             }
 
@@ -445,7 +463,11 @@ public class Main extends JPanel {
             g2.setColor(new Color(0xbdd980));
             g2.fillRect(0, 0, 800, 800);
 
-         g2.drawImage(Resources.lair, 0, -25, 200, 200, null);
+            g2.drawImage(Resources.details, 0, 0, null);
+            g2.drawImage(Resources.details2, 0, 0, null);
+
+
+            g2.drawImage(Resources.lair, 0, -25, 200, 200, null);
          g2.drawImage(Resources.cave, 650, -25, 200, 200, null);
 
          g2.drawImage(Resources.auctionHouse, 250, 100, null);
@@ -503,10 +525,22 @@ public class Main extends JPanel {
             g2.drawString("Inventory", x, 90);
             g2.drawString("Shop", 630, 90);
 
-            if (inInventory) {
+            if (firstTime && !inInventory && !inShop) {
+                g2.drawImage(Resources.arrows, 0, 0, null);
+                g2.setColor(brown);
+                g2.setFont(sizedFont);
+                g2.drawString("Select an Option", 200, 400);
+                g2.setFont(smallerFont);
+                g2.drawString("Click everything twice for it to work", 150, 430);
+            }
+
+            if (inInventory && !inShop) {
                 g2.drawImage(characters.get(charIndex).getFullbody(), 400 - 270 / 2, 400 - 444 / 2, null);
                 g2.setFont(smallerFont);
                 g2.drawString("Use < > to select character", x, 700);
+                g2.setColor(brown);
+                g2.setStroke(new BasicStroke(5.0f));
+                g2.drawLine(60, 103, 290, 103);
                 if (characters.get(charIndex).getType().equals("amina")) {
                     g2.setColor(green);
                     g2.setFont(biggerFont);
@@ -581,9 +615,11 @@ public class Main extends JPanel {
                     g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
             }
-            if (inShop && !shopChars.isEmpty()){
+            if (inShop && !inInventory){
                 g2.setColor(brown);
                 g2.fillRect(95, 650, 282, 40);
+                g2.setStroke(new BasicStroke(5.0f));
+                g2.drawLine(630, 103, 733, 103);
                 g2.setColor(beige);
                 g2.drawString("Buy: 50 coins", 100, 675);
                 g2.drawImage(shopChars.get(shopCharsIndex).getFullbody(), 400 - 270 / 2, 400 - 444 / 2, null);
@@ -660,7 +696,8 @@ public class Main extends JPanel {
             int stretchedHeight = 800;
             g2.drawImage(Resources.titleCard, 0, 0, stretchedWidth, stretchedHeight, null);
             g2.setColor(new Color(0x3c7c54));
-            g2.drawString("PRESS SPACE TO START", 160, 550);
+            g2.drawString("PRESS SPACE TO START", 160, 500);
+            g2.drawImage(Resources.tutorial, 0, 0, null);
         }
 
         if (isstarted && lost) {

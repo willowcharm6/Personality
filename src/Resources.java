@@ -26,7 +26,7 @@ public class Resources {
             melonieFWalk1, melonieFWalk2, melonieLeft, melonieLWalk, melonieRight, melonieRWalk, melonieIdle,
             melonieMelonSeed, melonieMelon, melonie, violaBack, violaBWalk1, violaBWalk2, violaFront,
             violaFWalk1, violaFWalk2, violaLeft, violaLWalk, violaRight, violaRWalk, violaIdle,
-            violaGuitar, violaNote, viola;
+            violaGuitar, violaNote, viola, tutorial, details, details2, arrows;
 
 
 
@@ -59,6 +59,12 @@ public class Resources {
 
             door2.open(audioIn4);
 
+            File soundFile5 = new File("./res/coin.wav");
+            AudioInputStream audioIn5 = AudioSystem.getAudioInputStream(soundFile5);
+            coin = AudioSystem.getClip();
+
+            coin.open(audioIn5);
+
             //random stuff
 
             auctionHouse = ImageIO.read(new File("./res/AuctionHouse.png"));
@@ -67,6 +73,10 @@ public class Resources {
             lair = ImageIO.read(new File("./res/lair.png"));
             lair2 = ImageIO.read(new File("./res/lair2.png"));
 
+            arrows = ImageIO.read(new File("./res/arrows.png"));
+            details = ImageIO.read(new File("./res/details.png"));
+            details2 = ImageIO.read(new File("./res/details2.png"));
+            tutorial = ImageIO.read(new File("./res/tutorial.png"));
             titleCard = ImageIO.read(new File("./res/TitleCard.png"));
             loseScreen = ImageIO.read(new File("./res/lose.png"));
             inAuctionHouse = ImageIO.read(new File("./res/pause_box.png"));

@@ -26,6 +26,18 @@ public class Bear extends Enemy{
         }
     }
 
+    public void attackPlayer(Sprite player) {
+        Point playerPosition = player.getLocation();
+        Point enemyPosition = getLocation();
+        double distance = playerPosition.distance(enemyPosition);
+
+        // Move character only if it is further than the desired distance from the player
+        double angle = Math.atan2(playerPosition.getY() - enemyPosition.getY(), playerPosition.getX() - enemyPosition.getX());
+        int dx = (int) (Math.cos(angle) * 2); // Adjust the speed of char movement
+        int dy = (int) (Math.sin(angle) * 2); // Adjust the speed of char movement
+        move(dx, dy);
+    }
+
     @Override
     protected void setImages() {
         // Initialize the animation frames using images from Resources
