@@ -623,6 +623,10 @@ public class Main extends JPanel {
                 g2.drawString("Select an Option", 200, 400);
                 g2.setFont(smallerFont);
                 g2.drawString("Click everything twice for it to work", 150, 430);
+                g2.drawString("Select your character in inventory", 150, 465);
+                g2.drawString("Buy new characters in shop", 200, 500);
+
+
             }
 
             if (inInventory && !inShop) {
