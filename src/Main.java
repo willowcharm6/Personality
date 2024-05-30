@@ -484,7 +484,7 @@ public class Main extends JPanel {
             }
             characters.get(charIndex).draw(g2);
             for (Projectile proj : projectile){
-                proj.draw2(g2, Resources.aminaSwirl);
+                proj.draw2(g2, proj.getImage());
             }
 
             g2.drawImage(Resources.auctionHouse2, 250, 100, null);
@@ -615,7 +615,7 @@ public class Main extends JPanel {
                     g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
             }
-            if (inShop && !inInventory){
+            if (inShop && !inInventory && !shopChars.isEmpty()){
                 g2.setColor(brown);
                 g2.fillRect(95, 650, 282, 40);
                 g2.setStroke(new BasicStroke(5.0f));

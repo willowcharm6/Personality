@@ -23,6 +23,10 @@ public class Projectile{
         location = new Point((int)newX, (int)newY);
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
     public void followMouse(int speed) {
 //        double mouseX = mouse.getX();
 //        double mouseY = mouse.getY();
