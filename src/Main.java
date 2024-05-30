@@ -92,14 +92,14 @@ public class Main extends JPanel {
                 new BufferedImage[]{Resources.melonieFront, Resources.melonieFWalk1, Resources.melonieIdle, Resources.melonieFWalk2},
                 new BufferedImage[]{Resources.melonieLeft, Resources.melonieLWalk, Resources.melonieLeft, Resources.melonieLWalk},
                 new BufferedImage[]{Resources.melonieRight, Resources.melonieRWalk, Resources.melonieRight, Resources.melonieRWalk},
-                "melonie", Resources.melonie, Resources.melonieIdle, Resources.melonieMelon
+                "melonie", Resources.melonie, Resources.melonieIdle, Resources.melonieMelonSeed
         ));
         shopChars.add(new Character(new Point(200, 400),
                 new BufferedImage[]{Resources.violaBack, Resources.violaBWalk1, Resources.violaBack, Resources.violaBWalk2},
                 new BufferedImage[]{Resources.violaFront, Resources.violaFWalk1, Resources.violaIdle, Resources.violaFWalk2},
                 new BufferedImage[]{Resources.violaLeft, Resources.violaLWalk, Resources.violaLeft, Resources.violaLWalk},
                 new BufferedImage[]{Resources.violaRight, Resources.violaRWalk, Resources.violaRight, Resources.violaRWalk},
-                "viola", Resources.viola, Resources.violaIdle, Resources.violaGuitar
+                "viola", Resources.viola, Resources.violaIdle, Resources.violaNote
         ));
 
         addKeyListener(new KeyAdapter() {
