@@ -37,7 +37,7 @@ public class Character extends Sprite {
         return fullbody;
     }
 
-    public void followPlayer(Sprite player, int targetDistance) {
+    public void followPlayer(Sprite player, int targetDistance, int speed) {
         Point playerPosition = player.getLocation();
         Point charPosition = getLocation();
         double distance = playerPosition.distance(charPosition);
@@ -45,8 +45,8 @@ public class Character extends Sprite {
         if (distance > targetDistance) {
             // Move character only if it is further than the desired distance from the player
             double angle = Math.atan2(playerPosition.getY() - charPosition.getY(), playerPosition.getX() - charPosition.getX());
-            int dx = (int) (Math.cos(angle) * 2); // Adjust the speed of char movement
-            int dy = (int) (Math.sin(angle) * 2); // Adjust the speed of char movement
+            int dx = (int) (Math.cos(angle) * speed); // Adjust the speed of char movement
+            int dy = (int) (Math.sin(angle) * speed); // Adjust the speed of char movement
             move(dx, dy);
         } else {
             // Stop character movement if within the desired distance

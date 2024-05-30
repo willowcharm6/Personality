@@ -12,7 +12,7 @@ public class Resources {
     // 3. Initialize the variable by copying and pasting and modifying the
     //    ImageIO line.
 
-    public static Clip musicNormal, musicAuction, door,door2, boing, coin;
+    public static Clip musicNormal, musicAuction, door,door2, purchase, coin;
 
     public static BufferedImage playerFront, titleCard, loseScreen, playerBStill, playerBWalk1, playerBWalk2,
             playerFWalk1, playerFWalk2, playerLeft, playerLWalk, playerRight, playerRWalk, enemyBack,
@@ -64,6 +64,12 @@ public class Resources {
             coin = AudioSystem.getClip();
 
             coin.open(audioIn5);
+
+            File soundFile6 = new File("./res/purchase.wav");
+            AudioInputStream audioIn6 = AudioSystem.getAudioInputStream(soundFile6);
+            purchase = AudioSystem.getClip();
+
+            purchase.open(audioIn6);
 
             //random stuff
 

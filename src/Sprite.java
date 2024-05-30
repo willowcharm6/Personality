@@ -34,6 +34,8 @@ public abstract class Sprite {
 
     public void loseHealth(int amount){
         health = health-amount;
+        if (health > 999)
+            health = 999;
     }
 
     public int getHealth(){

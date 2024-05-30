@@ -4,12 +4,12 @@ import java.awt.image.BufferedImage;
 public class Projectile{
 
     private Point location;
-    private int speed;
+    private double speed;
     private BufferedImage image;
     private int maxFrames, frameCount;
     private double angle;
 
-    public Projectile(Point location, int speed, BufferedImage image, Point mouse) {
+    public Projectile(Point location, double speed, BufferedImage image, Point mouse) {
         this.location = location;
         this.speed = speed;
         this.image = image;

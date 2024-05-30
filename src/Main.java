@@ -22,11 +22,14 @@ import java.io.IOException;
 public class Main extends JPanel {
     private boolean[] keys;
     private boolean rightKeyPressed = false;
-    private boolean firstTime;
+    private boolean firstTime, shield;
     private boolean leftKeyPressed = false;
     private int frameCount;
+    private int frameCountCaspian;
     private int frameCountDamage;
     private int frameCountDoor;
+    private int frameCountShield;
+    private int frameCountHeal;
     private int mouseX;
     private int mouseY;
     private boolean isstarted, inAuctionHouse, inShop = false, inInventory = false, lost, prevInAuctionHouse;
@@ -56,10 +59,13 @@ public class Main extends JPanel {
         frameCount = 0;
         frameCountDamage = 0;
         frameCountDoor = 0;
+        frameCountShield = 0;
+        frameCountCaspian = 0;
         inAuctionHouse = false;
         firstTime = true;
         lost = false;
         prevInAuctionHouse = false;
+        shield = false;
 
         setSize(width, height);
         keys = new boolean[256];
@@ -99,7 +105,7 @@ public class Main extends JPanel {
                 new BufferedImage[]{Resources.violaFront, Resources.violaFWalk1, Resources.violaIdle, Resources.violaFWalk2},
                 new BufferedImage[]{Resources.violaLeft, Resources.violaLWalk, Resources.violaLeft, Resources.violaLWalk},
                 new BufferedImage[]{Resources.violaRight, Resources.violaRWalk, Resources.violaRight, Resources.violaRWalk},
-                "viola", Resources.viola, Resources.violaIdle, Resources.violaNote
+                "viola", Resources.viola, Resources.violaIdle, Resources.violaGuitar
         ));
 
         addKeyListener(new KeyAdapter() {
@@ -138,6 +144,9 @@ public class Main extends JPanel {
                             characters.add(shopChars.get(shopCharsIndex));
                             shopChars.remove(shopChars.get(shopCharsIndex));
                             player.changeCoins(-50);
+                            Resources.purchase.stop();
+                            Resources.purchase.setFramePosition(0);
+                            Resources.purchase.start();
                             // Ensure shopCharsIndex is within bounds after removal
                             if (shopCharsIndex >= shopChars.size()) {
                                 shopCharsIndex = shopChars.size() - 1;
@@ -199,7 +208,10 @@ public class Main extends JPanel {
             if (isstarted) {
                 frameCount++;
                 frameCountDamage++;
+                frameCountHeal++;
+                frameCountCaspian++;
             }
+
 
         if (Resources.musicNormal != null && isstarted && !inAuctionHouse){
             Resources.musicNormal.start();
@@ -334,12 +346,31 @@ public class Main extends JPanel {
                 bears.add(new Bear(new Point(740, 100), Resources.bearFront));
             }
 
-                characters.get(charIndex).followPlayer(player, 80);
-                if (frameCount > 5 && keys[KeyEvent.VK_SPACE] && isstarted) {
+            if (characters.get(charIndex).getType() == "caspian" || characters.get(charIndex).getType() == "viola"){
+                characters.get(charIndex).followPlayer(player, 80, 3);
+            }
+            else {
+                characters.get(charIndex).followPlayer(player, 80,2);
+            }
+
+
+                if (frameCount > 5 && keys[KeyEvent.VK_SPACE] && isstarted && characters.get(charIndex).getType() != "viola" && characters.get(charIndex).getType() != "caspian") {
                     projectile.add(new Projectile(characters.get(charIndex).getLocation(), 1,
                             characters.get(charIndex).getAttack(), new Point(mouseX, mouseY)));
                     frameCount = 0;
                 }
+                else if (keys[KeyEvent.VK_SPACE] && characters.get(charIndex).getType() == "viola") {
+                    shield = true;
+                } else if (frameCountCaspian > 15 && keys[KeyEvent.VK_SPACE] && characters.get(charIndex).getType() == "caspian") {
+                    projectile.add(new Projectile(characters.get(charIndex).getLocation(), 0.75,characters.get(charIndex).getAttack(), new Point(mouseX, mouseY)));
+                    frameCountCaspian = 0;
+
+                }
+
+            if (!keys[KeyEvent.VK_SPACE]){
+                    shield = false;
+                }
+
 
             // enemies do 5 damage, but they see you from further away
             for (Enemy enemy: enemies) {
@@ -373,15 +404,57 @@ public class Main extends JPanel {
                 }
             }
 
+            if (characters.get(charIndex).getType() == "viola" && shield) {
+                for (Bear bear : bears) {
+                    if (bear.getX() > (characters.get(charIndex).getX()-90)
+                       && bear.getX() < (characters.get(charIndex).getX()+90)
+                       && bear.getY() > (characters.get(charIndex).getY()-90)
+                       && bear.getY() < (characters.get(charIndex).getY()+90)
+                    ) {
+                        bear.loseHealth(15);
+                    }
+                }
+
+                for (Enemy enemy: enemies) {
+                    if (enemy.getX() > (characters.get(charIndex).getX()-90)
+                            && enemy.getX() < (characters.get(charIndex).getX()+90)
+                            && enemy.getY() > (characters.get(charIndex).getY()-90)
+                            && enemy.getY() < (characters.get(charIndex).getY()+90)
+                    ) {
+                        enemy.loseHealth(15);
+                    }
+                }
+            }
+
             // Remove projectiles if they hit a bear, enemy, or are out of frame
             for (int i = projectile.size() - 1; i >= 0; i--) {
                 Projectile proj = projectile.get(i);
                 boolean removed = false;
 
+                if (characters.get(charIndex).getType() == "melonie"){
+                    if(proj.intersects(player) && frameCountHeal > 25){
+                        player.loseHealth(-5);
+                        frameCountHeal = 0;
+                    }
+                }
+
                 // Check intersection with bears
                 for (int j = 0; j < bears.size(); j++) {
                     if (proj.intersects(bears.get(j))) {
-                        bears.get(j).loseHealth(30);
+
+                        //melonie
+                        if (characters.get(charIndex).getType() == "melonie")
+                            bears.get(j).loseHealth(15);
+
+                        //amina
+                        if (characters.get(charIndex).getType() == "amina")
+                            bears.get(j).loseHealth(30);
+
+                        //caspian
+                        if (characters.get(charIndex).getType() == "caspian") {
+                            bears.get(j).loseHealth(45);
+                        }
+
                         projectile.remove(i);
                         removed = true;
                         break;
@@ -392,7 +465,20 @@ public class Main extends JPanel {
                 if (!removed) {
                     for (int j = 0; j < enemies.size(); j++) {
                         if (proj.intersects(enemies.get(j))) {
-                            enemies.get(j).loseHealth(30);
+
+                            //melonie
+                            if (characters.get(charIndex).getType() == "melonie")
+                                enemies.get(j).loseHealth(15);
+
+                            //amina
+                            if (characters.get(charIndex).getType() == "amina")
+                                enemies.get(j).loseHealth(30);
+
+                            //caspian
+                            if (characters.get(charIndex).getType() == "caspian") {
+                                enemies.get(j).loseHealth(45);
+                            }
+
                             projectile.remove(i);
                             removed = true;
                             break;
@@ -486,6 +572,11 @@ public class Main extends JPanel {
             for (Projectile proj : projectile){
                 proj.draw2(g2, proj.getImage());
             }
+
+            if (shield){
+                g2.drawImage(Resources.violaGuitar, characters.get(charIndex).getX() - 80, characters.get(charIndex).getY()-80, null);
+            }
+
 
             g2.drawImage(Resources.auctionHouse2, 250, 100, null);
             g2.drawImage(Resources.lair2, 0, -25, 200, 200, null);
