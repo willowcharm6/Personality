@@ -365,11 +365,22 @@ public class Main extends JPanel {
             g2.drawImage(Resources.lair2, 0, -25, 200, 200, null);
 
             // only see a portion, viewport
-            g2.setColor(green);
+            Color greenWithOpacity = new Color(60, 124, 84, 128);
+            g2.setColor(greenWithOpacity);
             if (isstarted && !inAuctionHouse) {
                 Area a = new Area(new Rectangle(0, 0, 800, 800));
                 a.subtract(new Area(new Rectangle(player.getX() - 200, player.getY() - 200, 400, 400)));
                 g2.fill(a);
+
+                g2.setColor(new Color(60, 124, 84, 191));
+                Area ab = new Area(new Rectangle(0, 0, 800, 800));
+                ab.subtract(new Area(new Rectangle(player.getX() - 250, player.getY() - 250, 500, 500)));
+                g2.fill(ab);
+
+                g2.setColor(green);
+                Area b = new Area(new Rectangle(0,0,800,800));
+                b.subtract(new Area(new Rectangle(player.getX() - 300, player.getY() - 300, 600, 600)));
+                g2.fill(b);
             }
 
         }
