@@ -21,6 +21,8 @@ import java.io.IOException;
 
 public class Main extends JPanel {
     private boolean[] keys;
+    private boolean rightKeyPressed = false;
+    private boolean leftKeyPressed = false;
     private int frameCount;
     private int frameCountDamage;
     private int frameCountDoor;
@@ -130,12 +132,14 @@ public class Main extends JPanel {
                     }
                     if (inAuctionHouse && inShop){
                         // g2.fillRect(95, 650, 90, 40);
-                        if (e.getX() < 95 + 90 && e.getX() > 95 && e.getY() > 650 && e.getY() < 650 + 40 && player.getCoins() >= 50){
+                        if (e.getX() < 95 + 90 && e.getX() > 95 && e.getY() > 650 && e.getY() < 650 + 40 && player.getCoins() >= 50) {
                             characters.add(shopChars.get(shopCharsIndex));
-                            shopChars.remove(shopCharsIndex);
-                            System.out.println(shopChars);
-                            System.out.println(shopCharsIndex);
+                            shopChars.remove(shopChars.get(shopCharsIndex));
                             player.changeCoins(-50);
+                            // Ensure shopCharsIndex is within bounds after removal
+                            if (shopCharsIndex >= shopChars.size()) {
+                                shopCharsIndex = shopChars.size() - 1;
+                            }
                         }
                     }
                 }
@@ -194,10 +198,6 @@ public class Main extends JPanel {
             Resources.musicNormal.stop();
             Resources.musicAuction.start();
         }
-
-
-
-
 
         if (!isstarted && keys[KeyEvent.VK_SPACE]) {
             isstarted = true;
@@ -263,14 +263,31 @@ public class Main extends JPanel {
                         charIndex -= 1;
                     }
                 }
-                if (inShop){
-                    if (keys[KeyEvent.VK_RIGHT] && shopCharsIndex < shopChars.size() - 1) {
-                        shopCharsIndex += 1;
-                        System.out.println(shopCharsIndex);
+                if (inShop) {
+                    // Check for right arrow key
+                    if (keys[KeyEvent.VK_RIGHT]) {
+                        if (!rightKeyPressed) {  // Key was just pressed
+                            if (shopCharsIndex < shopChars.size() - 1) {
+                                shopCharsIndex += 1;
+                                System.out.println(shopCharsIndex);
+                            }
+                            rightKeyPressed = true;  // Set flag to indicate the key is pressed
+                        }
+                    } else {
+                        rightKeyPressed = false;  // Reset flag when key is released
                     }
-                    if (keys[KeyEvent.VK_LEFT] && shopCharsIndex > 0) {
-                        shopCharsIndex -= 1;
-                        System.out.println(shopCharsIndex);
+
+                    // Check for left arrow key
+                    if (keys[KeyEvent.VK_LEFT]) {
+                        if (!leftKeyPressed) {  // Key was just pressed
+                            if (shopCharsIndex > 0) {
+                                shopCharsIndex -= 1;
+                                System.out.println(shopCharsIndex);
+                            }
+                            leftKeyPressed = true;  // Set flag to indicate the key is pressed
+                        }
+                    } else {
+                        leftKeyPressed = false;  // Reset flag when key is released
                     }
                 }
             }
@@ -512,9 +529,9 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Melonie", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("I have a unique skill", 480, 125);
-                    g2.drawString("- shooting watermelon ", 480, 155);
-                    g2.drawString("seeds with precision!", 480, 185);
+                    g2.drawString("I have a unique skill", 445, 125);
+                    g2.drawString("- shooting watermelon ", 445, 155);
+                    g2.drawString("seeds with precision!", 445, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I grew up in a small town", x, 220);
@@ -573,9 +590,9 @@ public class Main extends JPanel {
                     g2.setFont(biggerFont);
                     g2.drawString("Melonie", x, 150);
                     g2.setFont(smallerFont);
-                    g2.drawString("I have a unique skill", 480, 125);
-                    g2.drawString("- shooting watermelon ", 480, 155);
-                    g2.drawString("seeds with precision!", 480, 185);
+                    g2.drawString("I have a unique skill", 445, 125);
+                    g2.drawString("- shooting watermelon ", 445, 155);
+                    g2.drawString("seeds with precision!", 445, 185);
                     g2.drawString("Attacks:", 600, 220);
                     g2.setFont(smallestFont);
                     g2.drawString("I grew up in a small town", x, 220);
