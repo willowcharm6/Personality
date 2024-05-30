@@ -14,14 +14,19 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Area;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 
 public class Main extends JPanel {
     private boolean[] keys;
     private int frameCount;
     private int frameCountDamage;
+    private int frameCountDoor;
     private int mouseX;
     private int mouseY;
-    private boolean isstarted, inAuctionHouse, inShop = false, inInventory = false, lost;
+    private boolean isstarted, inAuctionHouse, inShop = false, inInventory = false, lost, prevInAuctionHouse;
     private Player player;
     private ArrayList<Enemy> enemies;
     private ArrayList<Bear> bears;
@@ -47,8 +52,10 @@ public class Main extends JPanel {
         projPoint = new ArrayList<>();
         frameCount = 0;
         frameCountDamage = 0;
+        frameCountDoor = 0;
         inAuctionHouse = false;
         lost = false;
+        prevInAuctionHouse = false;
 
         setSize(width, height);
         keys = new boolean[256];
@@ -178,6 +185,20 @@ public class Main extends JPanel {
             frameCountDamage++;
         }
 
+        if (Resources.musicNormal != null && isstarted && !inAuctionHouse){
+            Resources.musicNormal.start();
+            Resources.musicAuction.stop();
+        }
+
+        if(inAuctionHouse) {
+            Resources.musicNormal.stop();
+            Resources.musicAuction.start();
+        }
+
+
+
+
+
         if (!isstarted && keys[KeyEvent.VK_SPACE]) {
             isstarted = true;
         }
@@ -186,6 +207,33 @@ public class Main extends JPanel {
             inAuctionHouse = true;
         }
         else inAuctionHouse = false;
+
+        if (inAuctionHouse != prevInAuctionHouse) {
+            if (inAuctionHouse) {
+                if (Resources.door != null) {
+                    Resources.door.stop(); // Stop the clip if it is already playing
+                    Resources.door.setFramePosition(0); // Rewind to the beginning
+                    Resources.door.start();
+                    frameCountDoor = 0;
+                }
+            }
+            if(!inAuctionHouse){
+                Resources.door.stop(); // Stop the clip if it is already playing
+                Resources.door.setFramePosition(0); // Rewind to the beginning
+                Resources.door.start();
+                frameCountDoor = 0;
+                System.out.println("left");
+            }
+            prevInAuctionHouse = inAuctionHouse;
+        }
+
+        if (frameCountDoor >= 100) {
+            if (Resources.door != null) {
+                Resources.door.stop();
+            }
+        } else {
+            frameCountDoor++;
+        }
 
         if (isstarted) {
             //moving keys (AWSD and arrow)
@@ -564,7 +612,7 @@ public class Main extends JPanel {
         g2.drawString("Coins: " + player.getCoins(), 580, 775);
         g2.setColor(new Color(0x630f1a));
         if(!inAuctionHouse)
-            g2.drawString("Health: " + player.getHealth(), 550, 725);
+            g2.drawString("Health: " + player.getHealth(), 550, 740);
         else
             g2.drawString("Health: " + player.getHealth(), 30, 775);
 
@@ -604,10 +652,6 @@ public class Main extends JPanel {
 
         int width = 800;
         int height = 800;
-        int VIEWPORT_WIDTH = 400;
-        int VIEWPORT_HEIGHT = 400;
-        int characterX = 400;
-        int characterY = 400;
         window.setBounds(0, 0, width, height + 22); //(x, y, w, h) 22 due to title bar.
 
         JPanel panel = new Main(width, height);

@@ -1,6 +1,9 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Resources {
     // to add an image to the environment:
@@ -9,6 +12,7 @@ public class Resources {
     // 3. Initialize the variable by copying and pasting and modifying the
     //    ImageIO line.
 
+    public static Clip musicNormal, musicAuction, door,door2, boing, coin;
 
     public static BufferedImage playerFront, titleCard, loseScreen, playerBStill, playerBWalk1, playerBWalk2,
             playerFWalk1, playerFWalk2, playerLeft, playerLWalk, playerRight, playerRWalk, enemyBack,
@@ -29,6 +33,31 @@ public class Resources {
 
     static{
         try{
+
+            /// music
+            File soundFile = new File("./res/Personality_music.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            musicNormal = AudioSystem.getClip();
+
+            musicNormal.open(audioIn);
+
+            File soundFile2 = new File("./res/Personality_musicElevator.wav");
+            AudioInputStream audioIn2 = AudioSystem.getAudioInputStream(soundFile2);
+            musicAuction = AudioSystem.getClip();
+
+            musicAuction.open(audioIn2);
+
+            File soundFile3 = new File("./res/door.wav");
+            AudioInputStream audioIn3 = AudioSystem.getAudioInputStream(soundFile3);
+            door = AudioSystem.getClip();
+
+            door.open(audioIn3);
+
+            File soundFile4 = new File("./res/door2.wav");
+            AudioInputStream audioIn4 = AudioSystem.getAudioInputStream(soundFile4);
+            door2 = AudioSystem.getClip();
+
+            door2.open(audioIn4);
 
             //random stuff
 
