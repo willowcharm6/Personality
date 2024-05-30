@@ -131,8 +131,8 @@ public class Main extends JPanel {
                         inShop = true;
                     }
                     if (inAuctionHouse && inShop){
-                        // g2.fillRect(95, 650, 90, 40);
-                        if (e.getX() < 95 + 90 && e.getX() > 95 && e.getY() > 650 && e.getY() < 650 + 40 && player.getCoins() >= 50) {
+                        // g2.fillRect(95, 650, 282, 40); Buy Button
+                        if (e.getX() < 95 + 282 && e.getX() > 95 && e.getY() > 650 && e.getY() < 650 + 40 && player.getCoins() >= 50) {
                             characters.add(shopChars.get(shopCharsIndex));
                             shopChars.remove(shopChars.get(shopCharsIndex));
                             player.changeCoins(-50);
@@ -184,21 +184,6 @@ public class Main extends JPanel {
 
     }
     public void update() {
-        if(isstarted) {
-            frameCount++;
-            frameCountDamage++;
-        }
-
-        if (Resources.musicNormal != null && isstarted && !inAuctionHouse){
-            Resources.musicNormal.start();
-            Resources.musicAuction.stop();
-        }
-
-        if(inAuctionHouse) {
-            Resources.musicNormal.stop();
-            Resources.musicAuction.start();
-        }
-
         if (!isstarted && keys[KeyEvent.VK_SPACE]) {
             isstarted = true;
         }
@@ -207,36 +192,58 @@ public class Main extends JPanel {
             inAuctionHouse = true;
         }
         else inAuctionHouse = false;
+        // music stuff
+        {
+            if (isstarted) {
+                frameCount++;
+                frameCountDamage++;
+            }
 
-        if (inAuctionHouse != prevInAuctionHouse) {
+            if (Resources.musicNormal != null && isstarted && !inAuctionHouse) {
+                if (!Resources.musicNormal.isRunning()) {
+                    Resources.musicNormal.setFramePosition(0); // Rewind to the beginning
+                    Resources.musicNormal.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
+                }
+                Resources.musicAuction.stop();
+            }
+
             if (inAuctionHouse) {
-                if (Resources.door != null) {
+                if (!Resources.musicAuction.isRunning()) {
+                    Resources.musicAuction.setFramePosition(0); // Rewind to the beginning
+                    Resources.musicAuction.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
+                }
+                Resources.musicNormal.stop();
+            }
+
+            if (inAuctionHouse != prevInAuctionHouse) {
+                if (inAuctionHouse) {
+                    if (Resources.door != null) {
+                        Resources.door.stop(); // Stop the clip if it is already playing
+                        Resources.door.setFramePosition(0); // Rewind to the beginning
+                        Resources.door.start();
+                        frameCountDoor = 0;
+                    }
+                }
+                if (!inAuctionHouse) {
                     Resources.door.stop(); // Stop the clip if it is already playing
                     Resources.door.setFramePosition(0); // Rewind to the beginning
                     Resources.door.start();
                     frameCountDoor = 0;
                 }
+                prevInAuctionHouse = inAuctionHouse;
             }
-            if(!inAuctionHouse){
-                Resources.door.stop(); // Stop the clip if it is already playing
-                Resources.door.setFramePosition(0); // Rewind to the beginning
-                Resources.door.start();
-                frameCountDoor = 0;
-                System.out.println("left");
-            }
-            prevInAuctionHouse = inAuctionHouse;
-        }
 
-        if (frameCountDoor >= 100) {
-            if (Resources.door != null) {
-                Resources.door.stop();
+            if (frameCountDoor >= 100) {
+                if (Resources.door != null) {
+                    Resources.door.stop();
+                }
+            } else {
+                frameCountDoor++;
             }
-        } else {
-            frameCountDoor++;
         }
 
         if (isstarted) {
-            //moving keys (AWSD and arrow)
+            //moving keys
             {
                 int dx = 0;
                 int dy = 0;
@@ -256,11 +263,27 @@ public class Main extends JPanel {
             }
             if (inAuctionHouse){
                 if (inInventory) {
-                    if (keys[KeyEvent.VK_RIGHT] && charIndex < characters.size() - 1) {
-                        charIndex += 1;
+                    if (keys[KeyEvent.VK_RIGHT]) {
+                        if (!rightKeyPressed) {  // Key was just pressed
+                            if (charIndex < characters.size() - 1) {
+                                charIndex += 1;
+                            }
+                            rightKeyPressed = true;  // Set flag to indicate the key is pressed
+                        }
+                    } else {
+                        rightKeyPressed = false;  // Reset flag when key is released
                     }
-                    if (keys[KeyEvent.VK_LEFT] && charIndex> 0) {
-                        charIndex -= 1;
+
+                    // Check for left arrow key
+                    if (keys[KeyEvent.VK_LEFT]) {
+                        if (!leftKeyPressed) {  // Key was just pressed
+                            if (charIndex> 0) {
+                                charIndex -= 1;
+                            }
+                            leftKeyPressed = true;  // Set flag to indicate the key is pressed
+                        }
+                    } else {
+                        leftKeyPressed = false;  // Reset flag when key is released
                     }
                 }
                 if (inShop) {
@@ -269,7 +292,6 @@ public class Main extends JPanel {
                         if (!rightKeyPressed) {  // Key was just pressed
                             if (shopCharsIndex < shopChars.size() - 1) {
                                 shopCharsIndex += 1;
-                                System.out.println(shopCharsIndex);
                             }
                             rightKeyPressed = true;  // Set flag to indicate the key is pressed
                         }
@@ -282,7 +304,6 @@ public class Main extends JPanel {
                         if (!leftKeyPressed) {  // Key was just pressed
                             if (shopCharsIndex > 0) {
                                 shopCharsIndex -= 1;
-                                System.out.println(shopCharsIndex);
                             }
                             leftKeyPressed = true;  // Set flag to indicate the key is pressed
                         }
@@ -305,14 +326,12 @@ public class Main extends JPanel {
                 bears.add(new Bear(new Point(740, 100), Resources.bearFront));
             }
 
-            for (Character chars : characters) {
-                chars.followPlayer(player, 80);
+                characters.get(charIndex).followPlayer(player, 80);
                 if (frameCount > 5 && keys[KeyEvent.VK_SPACE] && isstarted) {
-                    projectile.add(new Projectile(chars.getLocation(), 1,
+                    projectile.add(new Projectile(characters.get(charIndex).getLocation(), 1,
                             characters.get(charIndex).getAttack(), new Point(mouseX, mouseY)));
                     frameCount = 0;
                 }
-            }
 
             // enemies do 5 damage, but they see you from further away
             for (Enemy enemy: enemies) {
@@ -524,7 +543,7 @@ public class Main extends JPanel {
                     g2.drawImage(Resources.caspianRain, 600, 250, 16 * 5, 16 * 5, null);
                     g2.drawImage(Resources.caspianWave1, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
-                if (shopChars.get(shopCharsIndex).getType().equals("melonie")) {
+                if (characters.get(charIndex).getType().equals("melonie")) {
                     g2.setColor(pink);
                     g2.setFont(biggerFont);
                     g2.drawString("Melonie", x, 150);
@@ -537,12 +556,13 @@ public class Main extends JPanel {
                     g2.drawString("I grew up in a small town", x, 220);
                     g2.drawString("surrounded by nature and", x, 240);
                     g2.drawString("set the record for spitting", x, 260);
-                    g2.drawString("watermelon seeds the farthest", x, 280);
-                    g2.drawString("at our annual festival.", x, 300);
-                    g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
-                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                    g2.drawString("watermelon seeds the", x, 280);
+                    g2.drawString("farthest at our annual", x, 300);
+                    g2.drawString("festival!", x, 320);
+                    g2.drawImage(Resources.melonieMelon, 600, 250, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.melonieMelonSeed, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
-                if (shopChars.get(shopCharsIndex).getType().equals("viola")) {
+                if (characters.get(charIndex).getType().equals("viola")) {
                     g2.setColor(red);
                     g2.setFont(biggerFont);
                     g2.drawString("Viola", x, 150);
@@ -561,11 +581,11 @@ public class Main extends JPanel {
                     g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
             }
-            if (inShop){
+            if (inShop && !shopChars.isEmpty()){
                 g2.setColor(brown);
-                g2.fillRect(95, 650, 90, 40);
+                g2.fillRect(95, 650, 282, 40);
                 g2.setColor(beige);
-                g2.drawString("Buy", 100, 675);
+                g2.drawString("Buy: 50 coins", 100, 675);
                 g2.drawImage(shopChars.get(shopCharsIndex).getFullbody(), 400 - 270 / 2, 400 - 444 / 2, null);
                 if (shopChars.get(shopCharsIndex).getType().equals("caspian")) {
                     g2.setColor(blue);
@@ -598,10 +618,11 @@ public class Main extends JPanel {
                     g2.drawString("I grew up in a small town", x, 220);
                     g2.drawString("surrounded by nature and", x, 240);
                     g2.drawString("set the record for spitting", x, 260);
-                    g2.drawString("watermelon seeds the farthest", x, 280);
-                    g2.drawString("at our annual festival.", x, 300);
-                    g2.drawImage(Resources.violaGuitar, 600, 250, 16 * 5, 16 * 5, null);
-                    g2.drawImage(Resources.violaNote, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
+                    g2.drawString("watermelon seeds the", x, 280);
+                    g2.drawString("farthest at our annual", x, 300);
+                    g2.drawString("festival!", x, 320);
+                    g2.drawImage(Resources.melonieMelon, 600, 250, 16 * 5, 16 * 5, null);
+                    g2.drawImage(Resources.melonieMelonSeed, 600, 250 + 16 * 5, 16 * 5, 16 * 5, null);
                 }
                 if (shopChars.get(shopCharsIndex).getType().equals("viola")) {
                     g2.setColor(red);
