@@ -29,6 +29,7 @@ public class Main extends JPanel {
     private int frameCountDamage;
     private int frameCountDoor;
     private int frameCountShield;
+    private int frameCountStart;
     private int frameCountHeal;
     private int mouseX;
     private int mouseY;
@@ -210,6 +211,7 @@ public class Main extends JPanel {
                 frameCountDamage++;
                 frameCountHeal++;
                 frameCountCaspian++;
+                frameCountStart++;
             }
 
 
@@ -560,6 +562,12 @@ public class Main extends JPanel {
 
          g2.setColor(green);
          g2.setFont(sizedFont);
+
+         if(frameCountStart < 300) {
+             g2.setColor(brown);
+             g2.setFont(smallestFont);
+             g2.drawString("You", player.getX(), player.getY()-10);
+         }
 
             player.draw(g2);
             for (Enemy enemy : enemies) {
